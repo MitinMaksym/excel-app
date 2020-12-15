@@ -1,0 +1,87 @@
+.db {
+  &__header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: $dashboard-header-height;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background: #fff;
+    box-shadow: 0.2rem 0.5rem 0.3rem rgba(60, 64, 67, 0.15);
+    z-index: 1000;
+  }
+
+  &__new {
+    margin-top: $dashboard-header-height;
+    padding: 1.5rem;
+    background-color: #daece0;
+  }
+  &__view {
+    max-width: 100rem;
+    margin: 0 auto;
+  }
+
+  &__create {
+    width: 16rem;
+    height: 16rem;
+    background: #fff;
+    border-radius: 4px;
+    border: 1px solid #daece0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 2.4rem;
+    text-decoration: none;
+    color: black;
+    text-align: center;
+
+    &:hover {
+      cursor: pointer;
+      border-color: green;
+      color: green;
+    }
+  }
+
+  &__table {
+    padding: 1rem;
+  }
+
+  &__list-header {
+    display: flex;
+    justify-content: space-between;
+    color: #202124;
+    font-weight: 500;
+    font-size: 1.6rem;
+    margin-bottom: 1rem;
+    padding: 0 1.2rem;
+  }
+
+  &__list {
+    list-style: none;
+  }
+
+  &__record {
+    display: flex;
+    justify-content: space-between;
+    padding: 1.2rem 1.4rem 1.2rem 1.6rem;
+    margin-bottom: 1rem;
+
+    &:hover {
+      background: #e5f4ea;
+      border-radius: 2.5rem;
+    }
+
+    a {
+      text-decoration: none;
+      font-size: 1.4rem;
+      cursor: pointer;
+      color: #202124;
+
+      &:hover {
+        text-decoration: underline;
+      }
+    }
+  }
+}
