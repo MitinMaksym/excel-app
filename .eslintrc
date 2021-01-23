@@ -1,10 +1,6 @@
 {
-  "parser": "babel-eslint",
-  "env": {
-    "es6": true,
-    "browser": true,
-    "node": true
-  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint"],
   "rules": {
     "semi": "off",
     "arrow-parens": "off",
@@ -19,7 +15,8 @@
     "max-len": "off",
     "space-before-function-paren": "off",
     "guard-for-in": "off",
-    "no-prototype-builtins": "off"
+    "no-prototype-builtins": "off",
+    "no-non-null-assertion": "off"
   },
-  "extends": ["eslint:recommended", "google"]
+  "extends": ["plugin:@typescript-eslint/recommended"]
 }
