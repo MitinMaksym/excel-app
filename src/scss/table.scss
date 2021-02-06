@@ -65,11 +65,11 @@
     bottom: 0;
     transition: all 0.2s;
     z-index: 1000;
+    background-color: #1a73e8;
     opacity: 0;
 
     &:hover {
       opacity: 1 !important;
-      background-color: #1a73e8 !important;
     }
   }
 
