@@ -11,14 +11,14 @@ export class Excel {
   static className = "excel";
   private components: Array<Component>;
   private renderedComponents: Array<ExcelComponent>;
-  private $el: Element;
+  private $el: Dom;
 
   constructor(selector: string, options: Options) {
-    this.$el = document.querySelector(selector);
+    this.$el = $(selector);
     this.components = options.components || [];
   }
 
-  getRoot = (): Element => {
+  getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
 
     this.renderedComponents = this.components.map((Component) => {
@@ -32,11 +32,11 @@ export class Excel {
       excelRoot.append($el);
       return component;
     });
-    return excelRoot.$el;
+    return excelRoot;
   };
 
   render(): void {
-    this.$el.append(this.getRoot());
+    this.$el.insert(this.getRoot());
     this.renderedComponents.forEach((component) => {
       component.init();
     });
