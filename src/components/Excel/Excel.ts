@@ -9,9 +9,9 @@ type Options = {
 };
 export class Excel {
   static className = "excel";
-  private components: Array<Component>;
+  public components: Component[];
   private renderedComponents: Array<ExcelComponent>;
-  private $el: Dom;
+  public $el: Dom;
 
   constructor(selector: string, options: Options) {
     this.$el = $(selector);
@@ -24,10 +24,6 @@ export class Excel {
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
       const component = new Component($el);
-      if (component.name) {
-        //DEBUG
-        window["c" + component.name] = component;
-      }
       $el.html(component.toHTML());
       excelRoot.append($el);
       return component;

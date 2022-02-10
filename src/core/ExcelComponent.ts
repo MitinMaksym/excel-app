@@ -3,13 +3,15 @@ import { DomListener } from "./DomListener";
 
 type ComponentOptions = { listeners: string[]; name: string };
 
-export abstract class ExcelComponent extends DomListener {
+export class ExcelComponent extends DomListener {
   name: string;
-  constructor(protected $root: Dom, options?: ComponentOptions) {
+  constructor(public $root: Dom, options?: ComponentOptions) {
     super($root, options?.listeners);
     this.name = options?.name ?? "";
   }
-  abstract toHTML(): string;
+  toHTML(): string {
+    return "";
+  }
 
   init(): void {
     this.initDOMListeners();

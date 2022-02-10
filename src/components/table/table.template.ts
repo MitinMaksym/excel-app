@@ -16,9 +16,9 @@ const toChar = (_, idx: number) => {
   return String.fromCharCode(CODES.A + idx);
 };
 
-const toCell = () => {
+const toCell = (row: number) => {
   return (data: string, col: number) =>
-    `<div class="row__cell"  data-col = ${col}  contenteditable>  ${data}</div>`;
+    `<div class="row__cell" data-type="cell"  data-col = ${col} data-id = ${`${row}:${col}`}  contenteditable>  ${data}</div>`;
 };
 
 const createRow = (el: string, idx?: number) => {
@@ -39,9 +39,10 @@ export const createTable = (rowsCount = 10): string => {
     .map(toChar)
     .map(toColumn())
     .join("");
-  const cells = new Array(colCount).fill("").map(toCell()).join("");
+
   rows.push(createRow(cols));
   for (let i = 0; i < rowsCount; i++) {
+    const cells = new Array(colCount).fill("").map(toCell(i)).join("");
     rows.push(createRow(cells, i + 1));
   }
 
