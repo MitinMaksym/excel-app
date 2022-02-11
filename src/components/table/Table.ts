@@ -44,7 +44,8 @@ export class Table extends ExcelComponent {
   onKeydown(e: KeyboardEvent): void {
     const currentCellId = this.selection.activeCell.id(true);
 
-    if (e.key !== Key.Shift) {
+    if (Object.keys(Key).includes(e.key) && !e.shiftKey) {
+      e.preventDefault();
       const nextCellSelector = nextSelector(e.key, currentCellId);
       this.selection.selectCell(this.$root.find(nextCellSelector));
     }

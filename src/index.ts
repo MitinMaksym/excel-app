@@ -1,4 +1,3 @@
-import { $, Dom } from "./core/dom";
 import { Table } from "./components/table/Table";
 import { Formula } from "./components/formula/Formula";
 import { Toolbar } from "./components/toolbar/Toolbar";

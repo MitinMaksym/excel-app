@@ -28,16 +28,19 @@ export const nextSelector = (key: string, currentCell: CellCoords): string => {
   const MIN = 0;
   switch (key) {
     case Key.ArrowLeft:
-      col = col === MIN ? col : col++;
+      col - 1 < MIN ? col : --col;
       break;
     case Key.ArrowRight:
-      col = col + 1;
+    case Key.Tab:
+      col++;
       break;
-    case Key.ArrowRight:
-      col = col + 1;
-      break;
+
     case Key.ArrowUp:
-      row = row === MIN + 1 ? row : row--;
+      row - 1 < MIN ? row : row--;
+      break;
+    case Key.ArrowDown:
+    case Key.Enter:
+      row++;
       break;
   }
 

@@ -10,6 +10,7 @@ export class TableSelection {
   public selectCell = (cell: Dom): void => {
     this.clear();
     cell.addClass(TableSelection.className);
+    cell.focus();
     this.group.push(cell);
     this.activeCell = cell;
   };

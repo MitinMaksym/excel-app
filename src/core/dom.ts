@@ -16,6 +16,11 @@ export class Dom {
     }
   };
 
+  focus = () => {
+    this.$el.focus();
+    return this;
+  };
+
   clear = (): Dom => {
     this.html("");
     return this;

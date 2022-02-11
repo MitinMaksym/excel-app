@@ -4,6 +4,8 @@ export enum Key {
   ArrowUp = "ArrowUp",
   ArrowDown = "ArrowDown",
   Shift = "Shift",
+  Tab = "Tab",
+  Enter = "Enter",
 }
 
 export type CellCoords = {
