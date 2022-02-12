@@ -1,10 +1,12 @@
-import { Dom } from "./../../core/dom";
+import { Nullable } from "@core/types";
+import { Dom } from "@core/dom";
 export class TableSelection {
   public group: Dom[];
-  public activeCell: Dom;
+  public activeCell: Nullable<Dom> = null;
   constructor() {
     this.group = [];
   }
+
   static className = "row__cell--selected";
 
   public selectCell = (cell: Dom): void => {

@@ -1,6 +1,6 @@
 const CODES = {
   A: 65,
-  Z: 90,
+  Z: 90
 };
 
 const toColumn = () => {
@@ -12,7 +12,7 @@ const toColumn = () => {
             <div class="col-resize" data-resize="col"></div>
           </div>`;
 };
-const toChar = (_, idx: number) => {
+const toChar = (_: any, idx: number) => {
   return String.fromCharCode(CODES.A + idx);
 };
 

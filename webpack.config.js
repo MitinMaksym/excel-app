@@ -13,9 +13,9 @@ const tsLoaders = () => {
       loader: 'babel-loader',
       options: {
         presets: ['@babel/preset-env', '@babel/preset-typescript'],
-        plugins: ['@babel/plugin-proposal-class-properties'],
-      },
-    },
+        plugins: ['@babel/plugin-proposal-class-properties']
+      }
+    }
   ]
   if (isDev) {
     loaders.push('eslint-loader')
@@ -32,18 +32,18 @@ module.exports = {
   entry: ['@babel/polyfill', './index.ts'],
   output: {
     filename: filename('js'),
-    path: path.resolve(__dirname, 'dist'),
+    path: path.resolve(__dirname, 'dist')
   },
   resolve: {
     extensions: ['.js', '.ts'],
     alias: {
       '@': path.resolve(__dirname, 'src'),
-      '@core': path.resolve(__dirname, 'src/core'),
-    },
+      '@core': path.resolve(__dirname, 'src/core')
+    }
   },
   devServer: {
     hot: isDev,
-    port: 3000,
+    port: 3000
   },
   devtool: isDev ? 'source-map' : false,
   plugins: [
@@ -51,21 +51,21 @@ module.exports = {
       template: './index.html',
       minify: {
         removeComments: isProd,
-        collapseWhitespace: isProd,
-      },
+        collapseWhitespace: isProd
+      }
     }),
     new CleanWebpackPlugin(),
     new CopyPlugin({
       patterns: [
         {
           from: path.resolve(__dirname, 'src/favicon.ico'),
-          to: path.resolve(__dirname, 'dist'),
-        },
-      ],
+          to: path.resolve(__dirname, 'dist')
+        }
+      ]
     }),
     new MiniCssExtractPlugin({
-      filename: filename('css'),
-    }),
+      filename: filename('css')
+    })
   ],
   module: {
     rules: [
@@ -74,18 +74,17 @@ module.exports = {
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
-            options: {
-            },
+            options: {}
           },
           'css-loader',
-          'sass-loader',
-        ],
+          'sass-loader'
+        ]
       },
       {
         test: /\.ts$/,
         exclude: /node_modules/,
-        use: tsLoaders(),
-      },
-    ],
-  },
+        use: tsLoaders()
+      }
+    ]
+  }
 }

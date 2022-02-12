@@ -1,13 +1,16 @@
 import { Dom } from "./dom";
 import { DomListener } from "./DomListener";
+import { Emitter } from "./Emitter";
 
-type ComponentOptions = { listeners: string[]; name: string };
+type ComponentOptions = { listeners: string[]; name: string; emitter: Emitter };
 
 export class ExcelComponent extends DomListener {
   name: string;
-  constructor(public $root: Dom, options?: ComponentOptions) {
-    super($root, options?.listeners);
-    this.name = options?.name ?? "";
+  emitter: Emitter;
+  constructor(public $root: Dom, options: ComponentOptions) {
+    super($root, options.listeners);
+    this.name = options.name;
+    this.emitter = options.emitter;
   }
   toHTML(): string {
     return "";

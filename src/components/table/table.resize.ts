@@ -1,5 +1,4 @@
-import { Dom } from "./../../core/dom";
-import { $ } from "../../../../excel-project/src/core/dom";
+import { $, Dom } from "@core/dom";
 
 export const resize = (e: MouseEvent, $root: Dom): void => {
   e.preventDefault();
@@ -10,7 +9,7 @@ export const resize = (e: MouseEvent, $root: Dom): void => {
   const type = target.dataset.resize;
   const diffProp = type === "col" ? "bottom" : "right";
   $resizer.css({ [diffProp]: "-10000px", opacity: "1" });
-  let value;
+  let value: number;
 
   document.onmousemove = (event) => {
     if ($resizer.data.resize === "col") {
@@ -38,7 +37,7 @@ export const resize = (e: MouseEvent, $root: Dom): void => {
     $resizer.css({
       right: "0",
       bottom: "0",
-      opacity: "0",
+      opacity: "0"
     });
   };
 };

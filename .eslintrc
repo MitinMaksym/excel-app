@@ -16,7 +16,8 @@
     "space-before-function-paren": "off",
     "guard-for-in": "off",
     "no-prototype-builtins": "off",
-    "no-non-null-assertion": "off"
+    "no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "extends": ["plugin:@typescript-eslint/recommended"]
 }

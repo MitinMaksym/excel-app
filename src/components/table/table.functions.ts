@@ -1,6 +1,6 @@
-import { CellCoords, Key } from "./../../core/types";
-import { Dom } from "./../../core/dom";
-import { range } from "../../core/utils";
+import { CellCoords, Key } from "@core/types";
+import { Dom } from "@core/dom";
+import { range } from "@core/utils";
 
 export function isCell(target: Dom): boolean {
   return target.data.type === "cell";
@@ -14,7 +14,7 @@ export function matrix($current: Dom, $target: Dom): string[] {
   const currentCoords = $current.id(true) as CellCoords;
   const rows = range(targetCoords.row, currentCoords.row);
   const cols = range(targetCoords.col, currentCoords.col);
-  const ids = rows.reduce((acc, row) => {
+  const ids = rows.reduce((acc: string[], row) => {
     cols.forEach((col) => {
       acc.push(`${row}:${col}`);
     });

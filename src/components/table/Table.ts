@@ -4,13 +4,17 @@ import { createTable } from "./table.template";
 import { ExcelComponent } from "./../../core/ExcelComponent";
 import { TableSelection } from "./TableSelection";
 import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
-import { Key } from "../../core/types";
+import { ComponentOptions, Key } from "../../core/types";
 
 export class Table extends ExcelComponent {
   static className = "table";
   public selection: TableSelection;
-  constructor($root: Dom) {
-    super($root, { name: "Table", listeners: ["mousedown", "keydown"] });
+  constructor($root: Dom, options: ComponentOptions) {
+    super($root, {
+      name: "Table",
+      listeners: ["mousedown", "keydown"],
+      ...options
+    });
     this.selection = new TableSelection();
   }
 
@@ -19,6 +23,10 @@ export class Table extends ExcelComponent {
 
     const $cell = this.$root.find(`div[data-id="0:0"]`);
     this.selection.selectCell($cell);
+
+    this.emitter.subscribe("FORMULA:TYPING", (data?: string) => {
+      this.selection.activeCell?.html(data);
+    });
   }
   toHTML(): string {
     return createTable();
@@ -30,7 +38,7 @@ export class Table extends ExcelComponent {
     if (shouldResize(target)) {
       resize(e, this.$root);
     } else if (isCell(target)) {
-      if (e.shiftKey) {
+      if (e.shiftKey && this.selection.activeCell) {
         const cells: Dom[] = matrix(this.selection.activeCell, target).map(
           (id) => this.$root.find(`[data-id="${id}"]`)
         );
@@ -42,9 +50,9 @@ export class Table extends ExcelComponent {
   }
 
   onKeydown(e: KeyboardEvent): void {
-    const currentCellId = this.selection.activeCell.id(true);
+    const currentCellId = this.selection?.activeCell?.id(true);
 
-    if (Object.keys(Key).includes(e.key) && !e.shiftKey) {
+    if (Object.keys(Key).includes(e.key) && !e.shiftKey && currentCellId) {
       e.preventDefault();
       const nextCellSelector = nextSelector(e.key, currentCellId);
       this.selection.selectCell(this.$root.find(nextCellSelector));
