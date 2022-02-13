@@ -27,10 +27,10 @@ export class Excel {
 
   private getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
-
+    const componentOptions = { emitter: this.emitter };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
-      const component = new Component($el, { emitter: this.emitter });
+      const component = new Component($el, componentOptions);
       $el.html(component.toHTML());
       excelRoot.append($el);
       return component;
@@ -43,5 +43,9 @@ export class Excel {
     this.renderedComponents.forEach((component) => {
       component.init();
     });
+  }
+
+  destroy() {
+    this.renderedComponents.forEach((component) => component.destroy());
   }
 }

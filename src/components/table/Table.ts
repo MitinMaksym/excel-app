@@ -13,7 +13,7 @@ export class Table extends ExcelComponent {
     super($root, {
       name: "Table",
       listeners: ["mousedown", "keydown"],
-      ...options
+      ...options,
     });
     this.selection = new TableSelection();
   }
@@ -24,7 +24,7 @@ export class Table extends ExcelComponent {
     const $cell = this.$root.find(`div[data-id="0:0"]`);
     this.selection.selectCell($cell);
 
-    this.emitter.subscribe("FORMULA:TYPING", (data?: string) => {
+    this.$on("FORMULA:TYPING", (data?: string) => {
       this.selection.activeCell?.html(data);
     });
   }

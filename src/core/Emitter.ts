@@ -3,7 +3,7 @@ type ListenersType = { [event: string]: Array<(data?: string) => void> };
 export class Emitter {
   listeners: ListenersType = {};
 
-  emit = (event: string, data: string) => {
+  emit = (event: string, data?: string) => {
     if (!Array.isArray(this.listeners[event])) return false;
     this.listeners[event].forEach((listener) => {
       listener(data);
