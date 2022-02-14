@@ -27,6 +27,12 @@ export class Table extends ExcelComponent {
     this.$on("FORMULA:TYPING", (data?: string) => {
       this.selection.activeCell?.html(data);
     });
+    this.$on("FORMULA:FOCUS", () => {
+      this.selection.activeCell?.focus()
+    });
+    
+    
+
   }
   toHTML(): string {
     return createTable();

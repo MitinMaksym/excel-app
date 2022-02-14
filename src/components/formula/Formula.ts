@@ -1,11 +1,11 @@
 import { Dom } from "@core/dom";
 import { ExcelComponent } from "@core/ExcelComponent";
-import { ComponentOptions } from "@core/types";
+import { ComponentOptions, Key } from "@core/types";
 
 export class Formula extends ExcelComponent {
   static className = "formula";
   constructor($root: Dom, options: ComponentOptions) {
-    super($root, { name: "Formula", listeners: ["input"], ...options });
+    super($root, { name: "Formula", listeners: ["input","keydown"], ...options });
   }
 
   toHTML(): string {
@@ -18,5 +18,12 @@ export class Formula extends ExcelComponent {
   onInput(e: InputEvent): void {
     const target = e.target as HTMLDivElement;
     this.$emit("FORMULA:TYPING", target.innerHTML);
+  }
+
+  onKeydown(e:KeyboardEvent){
+    if (e.key === Key.Enter) {
+      e.preventDefault()
+      this.$emit("FORMULA:FOCUS");
+    }
   }
 }
