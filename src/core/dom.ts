@@ -8,12 +8,23 @@ export class Dom {
   }
 
   html = (html?: string): string | Dom => {
-    if (html) {
+    if (typeof html === "string") {
       this.$el.innerHTML = html;
       return this;
     } else {
       return this.$el.innerHTML.trim();
     }
+  };
+
+  text = (text?: string) => {
+    if (typeof text === "string") {
+      this.$el.textContent = text;
+      return this;
+    }
+    if (this.$el.tagName.toLowerCase() === "input") {
+      return (this.$el as HTMLInputElement).value;
+    }
+    return this.$el.textContent?.trim();
   };
 
   focus = () => {
@@ -55,7 +66,7 @@ export class Dom {
   find = (selector: string): Dom => {
     return $(this.$el.querySelector(selector) as HTMLElement);
   };
-  closest = (selector): Dom => {
+  closest = (selector: string): Dom => {
     return $(this.$el.closest(selector));
   };
   getCoords = (): DOMRect => {

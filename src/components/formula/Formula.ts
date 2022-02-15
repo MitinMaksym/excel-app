@@ -5,7 +5,23 @@ import { ComponentOptions, Key } from "@core/types";
 export class Formula extends ExcelComponent {
   static className = "formula";
   constructor($root: Dom, options: ComponentOptions) {
-    super($root, { name: "Formula", listeners: ["input","keydown"], ...options });
+    super($root, {
+      name: "Formula",
+      listeners: ["input", "keydown"],
+      ...options,
+    });
+  }
+
+  init(): void {
+    super.init();
+    const $el = this.$root.find(".formula__input");
+
+    this.$on("TABLE:TYPING", (data?: string) => {
+      $el.text(data);
+    });
+    this.$on("TABLE:SELECT", (data?: string) => {
+      $el.text(data);
+    });
   }
 
   toHTML(): string {
@@ -20,10 +36,10 @@ export class Formula extends ExcelComponent {
     this.$emit("FORMULA:TYPING", target.innerHTML);
   }
 
-  onKeydown(e:KeyboardEvent){
-    if (e.key === Key.Enter) {
-      e.preventDefault()
-      this.$emit("FORMULA:FOCUS");
+  onKeydown(e: KeyboardEvent) {
+    if (e.key === Key.Enter || e.key === Key.Tab) {
+      e.preventDefault();
+      this.$emit("FORMULA:DONE");
     }
   }
 }

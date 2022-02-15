@@ -12,7 +12,7 @@ export class Table extends ExcelComponent {
   constructor($root: Dom, options: ComponentOptions) {
     super($root, {
       name: "Table",
-      listeners: ["mousedown", "keydown"],
+      listeners: ["mousedown", "keydown", "input"],
       ...options,
     });
     this.selection = new TableSelection();
@@ -22,17 +22,15 @@ export class Table extends ExcelComponent {
     super.init();
 
     const $cell = this.$root.find(`div[data-id="0:0"]`);
-    this.selection.selectCell($cell);
+    this.selection.selectCell($cell); // TODO create common func
+    this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
 
     this.$on("FORMULA:TYPING", (data?: string) => {
       this.selection.activeCell?.html(data);
     });
-    this.$on("FORMULA:FOCUS", () => {
-      this.selection.activeCell?.focus()
+    this.$on("FORMULA:DONE", () => {
+      this.selection.activeCell?.focus();
     });
-    
-    
-
   }
   toHTML(): string {
     return createTable();
@@ -51,6 +49,7 @@ export class Table extends ExcelComponent {
         this.selection.selectGroup(cells);
       } else {
         this.selection.selectCell(target);
+        this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
       }
     }
   }
@@ -62,6 +61,12 @@ export class Table extends ExcelComponent {
       e.preventDefault();
       const nextCellSelector = nextSelector(e.key, currentCellId);
       this.selection.selectCell(this.$root.find(nextCellSelector));
+      this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
     }
+  }
+
+  onInput(e: InputEvent) {
+    const target = e.target as HTMLDivElement;
+    this.$emit("TABLE:TYPING", target.textContent ?? "");
   }
 }
