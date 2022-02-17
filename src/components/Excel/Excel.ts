@@ -1,33 +1,36 @@
+import { Emitter } from "./../../core/Emitter";
 import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
+import { ComponentOptions } from "@core/types";
 
-type Component = { new (el: Dom): ExcelComponent; className: string };
+type Component = {
+  new ($root: Dom, options: ComponentOptions): ExcelComponent;
+  className: string;
+};
 
 type Options = {
   components: Component[];
 };
 export class Excel {
   static className = "excel";
-  private components: Array<Component>;
+  private components: Component[];
   private renderedComponents: Array<ExcelComponent>;
   private $el: Dom;
+  public emitter: Emitter = new Emitter();
 
   constructor(selector: string, options: Options) {
     this.$el = $(selector);
     this.components = options.components || [];
+    this.renderedComponents = [];
   }
 
-  getRoot = (): Dom => {
+  private getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
-
+    const componentOptions = { emitter: this.emitter };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
-      const component = new Component($el);
-      if (component.name) {
-        //DEBUG
-        window["c" + component.name] = component;
-      }
+      const component = new Component($el, componentOptions);
       $el.html(component.toHTML());
       excelRoot.append($el);
       return component;
@@ -40,5 +43,9 @@ export class Excel {
     this.renderedComponents.forEach((component) => {
       component.init();
     });
+  }
+
+  destroy() {
+    this.renderedComponents.forEach((component) => component.destroy());
   }
 }

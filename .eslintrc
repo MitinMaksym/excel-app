@@ -6,6 +6,7 @@
     "arrow-parens": "off",
     "comma-dangle": "off",
     "linebreak-style": ["error", "windows"],
+    //"linebreak-style": ["error", "unix"],  // changes the file to LF
     "object-curly-spacing": "off",
     "require-jsdoc": "off",
     "indent": "off",
@@ -16,7 +17,8 @@
     "space-before-function-paren": "off",
     "guard-for-in": "off",
     "no-prototype-builtins": "off",
-    "no-non-null-assertion": "off"
+    "no-non-null-assertion": "off",
+    "@typescript-eslint/explicit-module-boundary-types": "off"
   },
   "extends": ["plugin:@typescript-eslint/recommended"]
 }

@@ -1,10 +1,27 @@
-import { Dom } from "./../../core/dom";
-import { ExcelComponent } from "./../../core/ExcelComponent";
+import { Dom } from "@core/dom";
+import { ExcelComponent } from "@core/ExcelComponent";
+import { ComponentOptions, Key } from "@core/types";
 
 export class Formula extends ExcelComponent {
   static className = "formula";
-  constructor($root: Dom) {
-    super($root, { name: "Formula", listeners: ["input"] });
+  constructor($root: Dom, options: ComponentOptions) {
+    super($root, {
+      name: "Formula",
+      listeners: ["input", "keydown"],
+      ...options,
+    });
+  }
+
+  init(): void {
+    super.init();
+    const $el = this.$root.find(".formula__input");
+
+    this.$on("TABLE:TYPING", (data?: string) => {
+      $el.text(data);
+    });
+    this.$on("TABLE:SELECT", (data?: string) => {
+      $el.text(data);
+    });
   }
 
   toHTML(): string {
@@ -14,7 +31,15 @@ export class Formula extends ExcelComponent {
       `;
   }
 
-  onInput(): void {
-    console.log(this.$root);
+  onInput(e: InputEvent): void {
+    const target = e.target as HTMLDivElement;
+    this.$emit("FORMULA:TYPING", target.innerHTML);
+  }
+
+  onKeydown(e: KeyboardEvent) {
+    if (e.key === Key.Enter || e.key === Key.Tab) {
+      e.preventDefault();
+      this.$emit("FORMULA:DONE");
+    }
   }
 }
