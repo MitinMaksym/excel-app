@@ -3,6 +3,7 @@ import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { ComponentOptions } from "@core/types";
+import { Store } from "@core/createStore";
 
 type Component = {
   new ($root: Dom, options: ComponentOptions): ExcelComponent;
@@ -11,23 +12,29 @@ type Component = {
 
 type Options = {
   components: Component[];
+  store: Store;
 };
 export class Excel {
   static className = "excel";
   private components: Component[];
   private renderedComponents: Array<ExcelComponent>;
   private $el: Dom;
-  public emitter: Emitter = new Emitter();
+  private emitter: Emitter = new Emitter();
+  private store: Store;
 
   constructor(selector: string, options: Options) {
     this.$el = $(selector);
     this.components = options.components || [];
     this.renderedComponents = [];
+    this.store = options.store;
   }
 
   private getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
-    const componentOptions = { emitter: this.emitter };
+    const componentOptions: ComponentOptions = {
+      emitter: this.emitter,
+      store: this.store,
+    };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
       const component = new Component($el, componentOptions);

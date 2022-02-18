@@ -1,3 +1,4 @@
+import { Store } from "./createStore";
 import { Emitter } from "./Emitter";
 
 export enum Key {
@@ -7,7 +8,7 @@ export enum Key {
   ArrowDown = "ArrowDown",
   Shift = "Shift",
   Tab = "Tab",
-  Enter = "Enter"
+  Enter = "Enter",
 }
 
 export type CellCoords = {
@@ -17,6 +18,13 @@ export type CellCoords = {
 
 export type ComponentOptions = {
   emitter: Emitter;
+  store: Store;
 };
 
 export type Nullable<T> = T | null;
+
+export type InferActionsTypes<T> = T extends {
+  [key: string]: (...args: any[]) => infer U;
+}
+  ? U
+  : never;
