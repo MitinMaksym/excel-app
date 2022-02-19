@@ -1,6 +1,3 @@
-import { Store } from "./createStore";
-import { Emitter } from "./Emitter";
-
 export enum Key {
   ArrowLeft = "ArrowLeft",
   ArrowRight = "ArrowRight",
@@ -14,11 +11,6 @@ export enum Key {
 export type CellCoords = {
   row: number;
   col: number;
-};
-
-export type ComponentOptions = {
-  emitter: Emitter;
-  store: Store;
 };
 
 export type Nullable<T> = T | null;

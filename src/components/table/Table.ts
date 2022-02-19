@@ -4,7 +4,8 @@ import { createTable } from "./table.template";
 import { ExcelComponent } from "./../../core/ExcelComponent";
 import { TableSelection } from "./TableSelection";
 import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
-import { ComponentOptions, Key } from "../../core/types";
+import { ComponentOptions } from "../Excel/Excel";
+import { Key } from "@core/types";
 
 export class Table extends ExcelComponent {
   static className = "table";
@@ -31,6 +32,8 @@ export class Table extends ExcelComponent {
     this.$on("FORMULA:DONE", () => {
       this.selection.activeCell?.focus();
     });
+
+    this.$subscribe((state) => console.log(state));
   }
   toHTML(): string {
     return createTable();
@@ -68,5 +71,6 @@ export class Table extends ExcelComponent {
   onInput(e: InputEvent) {
     const target = e.target as HTMLDivElement;
     this.$emit("TABLE:TYPING", target.textContent ?? "");
+    this.$dispatch({ type: "TEST" });
   }
 }

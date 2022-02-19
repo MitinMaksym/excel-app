@@ -9,7 +9,7 @@ export const createStore = (
   let state: AppStateType = rootReducer(initialState, { type: "TEST" });
   let listeners: Array<(state: AppStateType) => void> = [];
   return {
-    subscribe(listener: (state: object) => void) {
+    subscribe(listener: (state: AppStateType) => void) {
       listeners.push(listener);
 
       return {

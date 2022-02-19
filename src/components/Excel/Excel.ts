@@ -2,8 +2,12 @@ import { Emitter } from "./../../core/Emitter";
 import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
-import { ComponentOptions } from "@core/types";
 import { Store } from "@core/createStore";
+
+export type ComponentOptions = {
+  emitter: Emitter;
+  store: Store;
+};
 
 type Component = {
   new ($root: Dom, options: ComponentOptions): ExcelComponent;
