@@ -6,7 +6,7 @@ export const createStore = (
   rootReducer: RootReducer,
   initialState: InitialStateType
 ) => {
-  let state: AppStateType = rootReducer(initialState, { type: "TEST" });
+  let state: AppStateType = rootReducer(initialState, { type: "INIT" });
   let listeners: Array<(state: AppStateType) => void> = [];
   return {
     subscribe(listener: (state: AppStateType) => void) {

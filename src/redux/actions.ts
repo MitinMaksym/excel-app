@@ -1,10 +1,19 @@
 import { InferActionsTypes } from "@core/types";
 
-export type ActionsTypes = InferActionsTypes<typeof actions>;
-
 export const actions = {
-  test: () =>
+  init: () =>
     ({
-      type: "TEST",
+      type: "INIT",
     } as const),
+  tableResize: (data: TableResizeData) =>
+    ({
+      type: "TABLE:RESIZE",
+      data,
+    } as const),
+};
+
+export type ActionsTypes = InferActionsTypes<typeof actions>;
+export type TableResizeData = {
+  type: string;
+  value: { [key: string]: number };
 };

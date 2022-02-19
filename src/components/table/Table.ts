@@ -1,3 +1,4 @@
+import { actions } from "./../../redux/actions";
 import { resize } from "./table.resize";
 import { Dom, $ } from "./../../core/dom";
 import { createTable } from "./table.template";
@@ -39,11 +40,16 @@ export class Table extends ExcelComponent {
     return createTable();
   }
 
+  async handleCellResize(e: MouseEvent) {
+    const data = await resize(e, this.$root);
+    this.$dispatch(actions.tableResize(data));
+  }
+
   onMousedown(e: MouseEvent): void {
     const target = $(e.target as HTMLElement);
 
     if (shouldResize(target)) {
-      resize(e, this.$root);
+      this.handleCellResize(e);
     } else if (isCell(target)) {
       if (e.shiftKey && this.selection.activeCell) {
         const cells: Dom[] = matrix(this.selection.activeCell, target).map(
@@ -71,6 +77,5 @@ export class Table extends ExcelComponent {
   onInput(e: InputEvent) {
     const target = e.target as HTMLDivElement;
     this.$emit("TABLE:TYPING", target.textContent ?? "");
-    this.$dispatch({ type: "TEST" });
   }
 }

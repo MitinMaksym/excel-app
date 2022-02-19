@@ -12,3 +12,10 @@ export function range(current: number, target: number) {
     return start + idx;
   });
 }
+
+export const storage = (key: string, data?: string) => {
+  if (!data) {
+    return localStorage.getItem(key);
+  }
+  localStorage.setItem(key, JSON.stringify(data));
+};

@@ -1,5 +1,6 @@
 export const initialState = {
-  a: 5,
+  colState: {},
+  rowState: {},
 };
 
 export type InitialStateType = typeof initialState;
