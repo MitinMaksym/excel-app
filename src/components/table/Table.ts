@@ -24,17 +24,15 @@ export class Table extends ExcelComponent {
     super.init();
 
     const $cell = this.$root.find(`div[data-id="0:0"]`);
-    this.selection.selectCell($cell); // TODO create common func
-    this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
+    this.selectCell($cell);
 
     this.$on("FORMULA:TYPING", (data?: string) => {
       this.selection.activeCell?.html(data);
+      this.updateTextInStore(data ?? "");
     });
     this.$on("FORMULA:DONE", () => {
       this.selection.activeCell?.focus();
     });
-
-    this.$subscribe((state) => console.log(state));
   }
   toHTML(): string {
     return createTable(10, this.$getState());
@@ -57,8 +55,7 @@ export class Table extends ExcelComponent {
         );
         this.selection.selectGroup(cells);
       } else {
-        this.selection.selectCell(target);
-        this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
+        this.selectCell(target);
       }
     }
   }
@@ -76,6 +73,20 @@ export class Table extends ExcelComponent {
 
   onInput(e: InputEvent) {
     const target = e.target as HTMLDivElement;
-    this.$emit("TABLE:TYPING", target.textContent ?? "");
+    this.updateTextInStore($(target).text() as string);
+  }
+
+  updateTextInStore(text: string) {
+    this.$dispatch(
+      actions.changeText({
+        id: this.selection.activeCell?.data.id ?? "",
+        value: text,
+      })
+    );
+  }
+
+  selectCell(cell: Dom) {
+    this.selection.selectCell(cell);
+    this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
   }
 }

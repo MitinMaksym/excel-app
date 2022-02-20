@@ -1,6 +1,7 @@
+import { ComponentOptions } from "./../Excel/Excel";
 import { Dom } from "@core/dom";
 import { ExcelComponent } from "@core/ExcelComponent";
-import { ComponentOptions, Key } from "@core/types";
+import { Key } from "@core/types";
 
 export class Formula extends ExcelComponent {
   static className = "formula";
@@ -16,8 +17,8 @@ export class Formula extends ExcelComponent {
     super.init();
     const $el = this.$root.find(".formula__input");
 
-    this.$on("TABLE:TYPING", (data?: string) => {
-      $el.text(data);
+    this.$subscribe((state) => {
+      $el.text(state.currentText);
     });
     this.$on("TABLE:SELECT", (data?: string) => {
       $el.text(data);

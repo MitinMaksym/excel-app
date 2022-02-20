@@ -27,12 +27,17 @@ const toChar = (_: string, idx: number) => {
   return String.fromCharCode(CODES.A + idx);
 };
 
-const toCell = (row: number, colState: { [key: string]: number }) => {
-  return (data: string, col: number) => {
+const toCell = (
+  row: number,
+  colState: { [key: string]: number },
+  dataState: { [key: string]: string }
+) => {
+  return (_: string, col: number) => {
+    const content = dataState[`${row}:${col}`] || "";
     return `<div class="row__cell" data-type="cell"  data-col = ${col} style="width:${getWidth(
       col,
       colState
-    )}" data-id = ${`${row}:${col}`}  contenteditable>  ${data}</div>`;
+    )}" data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
   };
 };
 const withWidthFrom = (state: AppStateType) => (data: string, idx: number) => {
@@ -69,7 +74,7 @@ export const createTable = (rowsCount = 10, state: AppStateType): string => {
   for (let row = 0; row < rowsCount; row++) {
     const cells = new Array(colCount)
       .fill("")
-      .map(toCell(row, state.colState))
+      .map(toCell(row, state.colState, state.dataState))
       .join("");
     rows.push(createRow(state.rowState, cells, row + 1));
   }
