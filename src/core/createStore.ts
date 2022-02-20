@@ -1,10 +1,10 @@
-import { InitialStateType } from "@/redux/initialState";
+import { AppStateType } from "@/redux/initialState";
 import { ActionsTypes } from "./../redux/actions";
-import { RootReducer, AppStateType } from "./../redux/rootReducer";
+import { RootReducer } from "./../redux/rootReducer";
 
 export const createStore = (
   rootReducer: RootReducer,
-  initialState: InitialStateType
+  initialState: AppStateType
 ) => {
   let state: AppStateType = rootReducer(initialState, { type: "INIT" });
   let listeners: Array<(state: AppStateType) => void> = [];

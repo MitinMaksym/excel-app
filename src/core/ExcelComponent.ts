@@ -1,10 +1,10 @@
 import { Nullable } from "@core/types";
-import { AppStateType } from "@/redux/rootReducer";
 import { Store } from "@core/createStore";
 import { ActionsTypes } from "./../redux/actions";
 import { Dom } from "./dom";
 import { DomListener } from "./DomListener";
 import { Emitter } from "./Emitter";
+import { AppStateType } from "@/redux/initialState";
 
 type ExcelComponentOptions = {
   listeners: string[];
@@ -45,6 +45,10 @@ export class ExcelComponent extends DomListener {
 
   protected $subscribe(fn: (state: AppStateType) => void) {
     this.storeSub = this.store.subscribe(fn);
+  }
+
+  protected $getState() {
+    return this.store.getState();
   }
 
   init(): void {

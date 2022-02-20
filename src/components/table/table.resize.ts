@@ -8,7 +8,7 @@ export const resize = (e: MouseEvent, $root: Dom): Promise<TableResizeData> => {
     const $resizer = $(target);
     const $parent = $resizer.closest('div[data-type="resizable"]');
     const coords = $parent.getCoords();
-    const type = target.dataset.resize;
+    const type = $resizer.data.resize;
     const diffProp = type === "col" ? "bottom" : "right";
     $resizer.css({ [diffProp]: "-10000px", opacity: "1" });
     let value: number;
@@ -39,7 +39,7 @@ export const resize = (e: MouseEvent, $root: Dom): Promise<TableResizeData> => {
       resolve({
         type: $resizer.data.resize,
         value: {
-          [type === "col" ? $parent.data.col : $parent.data.row]: value,
+          [$parent.data[type ?? ""]]: value,
         },
       });
 

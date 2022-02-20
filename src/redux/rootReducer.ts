@@ -1,10 +1,9 @@
 import { ActionsTypes } from "./actions";
-import { InitialStateType } from "./initialState";
+import { AppStateType } from "./initialState";
 
 export type RootReducer = typeof rootReducer;
-export type AppStateType = ReturnType<RootReducer>;
 
-export const rootReducer = (state: InitialStateType, action: ActionsTypes) => {
+export const rootReducer = (state: AppStateType, action: ActionsTypes) => {
   switch (action.type) {
     case "INIT":
       return state;

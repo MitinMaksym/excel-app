@@ -1,4 +1,4 @@
-import { ComponentOptions } from "@core/types";
+import { ComponentOptions } from "./../Excel/Excel";
 import { Dom } from "./../../core/dom";
 import { ExcelComponent } from "@core/ExcelComponent";
 export class Toolbar extends ExcelComponent {
@@ -21,7 +21,7 @@ export class Toolbar extends ExcelComponent {
         <div class="button"><i class="material-icons">format_bold</i></div>
         <div class="button"><i class="material-icons">format_italic</i></div>
         <div class="button">
-          <i class="material-icons">format_inderlined</i>
+          <i class="material-icons">format_underlined</i>
         </div>
       `;
   }

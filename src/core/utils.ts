@@ -15,7 +15,9 @@ export function range(current: number, target: number) {
 
 export const storage = (key: string, data?: string) => {
   if (!data) {
-    return localStorage.getItem(key);
+    return !!localStorage.getItem(key)
+      ? JSON.parse(localStorage.getItem(key) ?? "")
+      : null;
   }
   localStorage.setItem(key, JSON.stringify(data));
 };

@@ -1,6 +1,12 @@
-export const initialState = {
+import { storage } from "@core/utils";
+
+export type AppStateType = typeof defaultState;
+
+export const defaultState = {
   colState: {},
   rowState: {},
 };
 
-export type InitialStateType = typeof initialState;
+export const initialState = storage("excel-state")
+  ? storage("excel-state")
+  : defaultState;

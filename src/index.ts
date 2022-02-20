@@ -1,4 +1,3 @@
-import { storage } from "./core/utils";
 import { rootReducer } from "./redux/rootReducer";
 import { Table } from "./components/table/Table";
 import { Formula } from "./components/formula/Formula";
@@ -9,10 +8,7 @@ import { Excel } from "./components/Excel/Excel";
 import { createStore, Store } from "@core/createStore";
 import { initialState } from "./redux/initialState";
 
-const localStorageData = storage("excel-state");
-const state = localStorageData ? JSON.parse(localStorageData) : initialState;
-
-const store: Store = createStore(rootReducer, state);
+const store: Store = createStore(rootReducer, initialState);
 store.subscribe((state) => {
   localStorage.setItem("excel-state", JSON.stringify(state));
 });

@@ -37,7 +37,7 @@ export class Table extends ExcelComponent {
     this.$subscribe((state) => console.log(state));
   }
   toHTML(): string {
-    return createTable();
+    return createTable(10, this.$getState());
   }
 
   async handleCellResize(e: MouseEvent) {
