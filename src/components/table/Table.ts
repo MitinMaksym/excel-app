@@ -1,3 +1,4 @@
+import { AppStateType } from "@/redux/initialState";
 import { actions } from "./../../redux/actions";
 import { resize } from "./table.resize";
 import { Dom, $ } from "./../../core/dom";
@@ -15,6 +16,7 @@ export class Table extends ExcelComponent {
     super($root, {
       name: "Table",
       listeners: ["mousedown", "keydown", "input"],
+      subscribe: ["colState"],
       ...options,
     });
     this.selection = new TableSelection();
@@ -74,6 +76,10 @@ export class Table extends ExcelComponent {
   onInput(e: InputEvent) {
     const target = e.target as HTMLDivElement;
     this.updateTextInStore($(target).text() as string);
+  }
+
+  storeChanged(state: AppStateType) {
+    console.log(state);
   }
 
   updateTextInStore(text: string) {

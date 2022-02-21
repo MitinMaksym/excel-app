@@ -8,6 +8,7 @@ import { AppStateType } from "@/redux/initialState";
 
 type ExcelComponentOptions = {
   listeners: string[];
+  subscribe: string[];
   name: string;
   emitter: Emitter;
   store: Store;
@@ -18,13 +19,14 @@ export class ExcelComponent extends DomListener {
   private emitter: Emitter;
   private unsubscribers: Array<() => void> = [];
   private storeSub: Nullable<ReturnType<typeof this.store.subscribe>> = null;
-
+  private subscribe: string[] = [];
   private store: Store;
   constructor(public $root: Dom, options: ExcelComponentOptions) {
     super($root, options.listeners);
     this.name = options.name;
     this.emitter = options.emitter;
     this.store = options.store;
+    this.subscribe = options.subscribe || [];
   }
   toHTML(): string {
     return "";
@@ -49,6 +51,12 @@ export class ExcelComponent extends DomListener {
 
   protected $getState() {
     return this.store.getState();
+  }
+  isWatching(key: string) {
+    return this.subscribe.includes(key);
+  }
+  storeChanged(state: Partial<AppStateType>) {
+    console.log("state", state);
   }
 
   init(): void {

@@ -3,7 +3,11 @@ import { ExcelComponent } from "./../../core/ExcelComponent";
 export class Header extends ExcelComponent {
   static className = "header";
   constructor($root: Dom) {
-    super($root, { name: "Header", listeners: ["click"] });
+    super($root, {
+      name: "Header",
+      listeners: ["click"],
+      subscribe: [],
+    });
   }
   onClick(): void {
     console.log("click in Header");

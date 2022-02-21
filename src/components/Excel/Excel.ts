@@ -3,6 +3,7 @@ import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { Store } from "@core/createStore";
+import { StoreSubscriber } from "@core/storeSubscriber";
 
 export type ComponentOptions = {
   emitter: Emitter;
@@ -25,12 +26,14 @@ export class Excel {
   private $el: Dom;
   private emitter: Emitter = new Emitter();
   private store: Store;
+  private subscriber: StoreSubscriber;
 
   constructor(selector: string, options: Options) {
     this.$el = $(selector);
     this.components = options.components || [];
     this.renderedComponents = [];
     this.store = options.store;
+    this.subscriber = new StoreSubscriber(this.store);
   }
 
   private getRoot = (): Dom => {
@@ -51,6 +54,7 @@ export class Excel {
 
   render(): void {
     this.$el.insert(this.getRoot());
+    this.subscriber.subscribeComponents(this.renderedComponents);
     this.renderedComponents.forEach((component) => {
       component.init();
     });

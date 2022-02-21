@@ -23,7 +23,6 @@ export const resize = (e: MouseEvent, $root: Dom): Promise<TableResizeData> => {
         $resizer.css({ bottom: -delta + "px" });
         value = coords.height + delta;
       }
-      console.log(value);
     };
 
     document.onmouseup = (): void => {
