@@ -18,7 +18,6 @@ export class ExcelComponent extends DomListener {
   private name: string;
   private emitter: Emitter;
   private unsubscribers: Array<() => void> = [];
-  private storeSub: Nullable<ReturnType<typeof this.store.subscribe>> = null;
   private subscribe: string[] = [];
   private store: Store;
   constructor(public $root: Dom, options: ExcelComponentOptions) {
@@ -40,21 +39,19 @@ export class ExcelComponent extends DomListener {
   protected $emit(event: string, data?: string) {
     this.emitter.emit(event, data);
   }
-
+  
   protected $dispatch(action: ActionsTypes) {
     this.store.dispatch(action);
-  }
-
-  protected $subscribe(fn: (state: AppStateType) => void) {
-    this.storeSub = this.store.subscribe(fn);
   }
 
   protected $getState() {
     return this.store.getState();
   }
+
   isWatching(key: string) {
     return this.subscribe.includes(key);
   }
+  
   storeChanged(state: Partial<AppStateType>) {
     console.log("state", state);
   }
@@ -65,6 +62,5 @@ export class ExcelComponent extends DomListener {
   destroy(): void {
     this.removeDOMListeners();
     this.unsubscribers.forEach((unsub) => unsub());
-    this.storeSub?.unSubscribe();
   }
 }

@@ -78,7 +78,7 @@ export class Table extends ExcelComponent {
     this.updateTextInStore($(target).text() as string);
   }
 
-  storeChanged(state: AppStateType) {
+  storeChanged(state: Partial<AppStateType>) {
     console.log(state);
   }
 
@@ -93,6 +93,6 @@ export class Table extends ExcelComponent {
 
   selectCell(cell: Dom) {
     this.selection.selectCell(cell);
-    this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
+    this.updateTextInStore(this.selection.activeCell?.text() as string)
   }
 }
