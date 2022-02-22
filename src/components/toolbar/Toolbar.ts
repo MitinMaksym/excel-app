@@ -1,28 +1,26 @@
 import { ComponentOptions } from "./../Excel/Excel";
-import { Dom } from "./../../core/dom";
+import { $, Dom } from "./../../core/dom";
 import { ExcelComponent } from "@core/ExcelComponent";
+import { createToolbar } from "./toolbar.template";
 export class Toolbar extends ExcelComponent {
   constructor($root: Dom, options: ComponentOptions) {
-    super($root, { ...options, listeners: [], name: "Toolbar" });
+    super($root, {
+      ...options,
+      listeners: ["click"],
+      subscribe: [],
+      name: "Toolbar",
+    });
   }
   static className = "toolbar";
 
   toHTML(): string {
-    return `
-        <div class="button">
-          <i class="material-icons">format_align_left</i>
-        </div>
-        <div class="button">
-          <i class="material-icons">format_align_center</i>
-        </div>
-        <div class="button">
-          <i class="material-icons">format_align_right</i>
-        </div>
-        <div class="button"><i class="material-icons">format_bold</i></div>
-        <div class="button"><i class="material-icons">format_italic</i></div>
-        <div class="button">
-          <i class="material-icons">format_underlined</i>
-        </div>
-      `;
+    const a = createToolbar();
+    console.log(a);
+    return a;
+  }
+
+  onClick(e: MouseEvent) {
+    if ($(e.target as HTMLElement).data.type === "button") {
+    }
   }
 }

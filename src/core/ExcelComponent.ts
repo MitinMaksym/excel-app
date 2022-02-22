@@ -1,4 +1,3 @@
-import { Nullable } from "@core/types";
 import { Store } from "@core/createStore";
 import { ActionsTypes } from "./../redux/actions";
 import { Dom } from "./dom";
@@ -39,7 +38,7 @@ export class ExcelComponent extends DomListener {
   protected $emit(event: string, data?: string) {
     this.emitter.emit(event, data);
   }
-  
+
   protected $dispatch(action: ActionsTypes) {
     this.store.dispatch(action);
   }
@@ -51,7 +50,7 @@ export class ExcelComponent extends DomListener {
   isWatching(key: string) {
     return this.subscribe.includes(key);
   }
-  
+
   storeChanged(state: Partial<AppStateType>) {
     console.log("state", state);
   }
