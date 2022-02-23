@@ -25,9 +25,14 @@ export class ExcelComponent extends DomListener {
     this.emitter = options.emitter;
     this.store = options.store;
     this.subscribe = options.subscribe || [];
+    this.prepare();
   }
   toHTML(): string {
     return "";
+  }
+
+  prepare() {
+    // parent prepare hook
   }
 
   protected $on(event: string, fn: (data?: string) => void) {

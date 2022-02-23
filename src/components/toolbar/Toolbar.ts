@@ -1,8 +1,8 @@
+import { createToolbar } from "@/components/toolbar/toolbar.template";
 import { ComponentOptions } from "./../Excel/Excel";
 import { $, Dom } from "./../../core/dom";
-import { ExcelComponent } from "@core/ExcelComponent";
-import { createToolbar } from "./toolbar.template";
-export class Toolbar extends ExcelComponent {
+import { ExcelStateComponent } from "@core/ExcelStateComponent";
+export class Toolbar extends ExcelStateComponent {
   constructor($root: Dom, options: ComponentOptions) {
     super($root, {
       ...options,
@@ -12,18 +12,31 @@ export class Toolbar extends ExcelComponent {
     });
   }
   static className = "toolbar";
+  prepare(): void {
+    console.log("toolbar prepare");
 
-  toHTML(): string {
-    const a = createToolbar();
-    console.log(a);
-    return a;
+    // const initialState = {
+    //   textAlign: "left",
+    //   textDecoration: "none",
+    //   fontStyle: "normal",
+    //   fontWeight: "normal",
+    // };
+
+    this.state = { j: "99" };
+    console.log("ccc", this);
+  }
+  get template() {
+    console.log("template", this.state);
+    return createToolbar(this.state);
   }
 
-
+  toHTML(): string {
+    return this.template;
+  }
 
   onClick(e: MouseEvent) {
     if ($(e.target as HTMLElement).data.type === "button") {
-      console.log($(e.target as HTMLElement).data.value)
+      console.log($(e.target as HTMLElement).data.value);
     }
   }
 }

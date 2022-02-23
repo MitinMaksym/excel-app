@@ -3,7 +3,7 @@ import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
 import { Store } from "@core/createStore";
-import { StoreSubscriber } from "@core/StoreSubscriber";
+import { StoreSubscriber } from "@core/storeSubscriber";
 
 export type ComponentOptions = {
   emitter: Emitter;
@@ -62,6 +62,6 @@ export class Excel {
 
   destroy() {
     this.renderedComponents.forEach((component) => component.destroy());
-    this.subscriber.unsubscribeComponents()
+    this.subscriber.unsubscribeComponents();
   }
 }
