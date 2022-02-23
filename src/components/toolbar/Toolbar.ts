@@ -19,8 +19,11 @@ export class Toolbar extends ExcelComponent {
     return a;
   }
 
+
+
   onClick(e: MouseEvent) {
     if ($(e.target as HTMLElement).data.type === "button") {
+      console.log($(e.target as HTMLElement).data.value)
     }
   }
 }

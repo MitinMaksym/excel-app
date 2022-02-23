@@ -6,7 +6,12 @@ export const defaultState = {
   colState: {},
   rowState: {},
   currentText:"",
-  dataState:{}
+  dataState:{},
+  stylesState:{
+    "0:0":{
+      "textAlign":"center"
+    }
+  }
 };
 
 export const initialState = storage("excel-state")
