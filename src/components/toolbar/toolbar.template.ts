@@ -1,7 +1,9 @@
+import { initialStyles } from "./Toolbar";
+
 export const toButton = ({
   icon,
   active,
-  value,
+  value
 }: {
   icon: string;
   active: boolean;
@@ -18,27 +20,45 @@ export const toButton = ({
 `;
 };
 
-export const createToolbar = (state: { [key: string]: string }) => {
-  console.log(state);
+export const createToolbar = ({
+  textAlign,
+  fontWeight,
+  fontStyle,
+  textDecoration
+}: typeof initialStyles) => {
   const buttons = [
-    { icon: "format_align_left", active: false, value: { textAlign: "left" } },
+    {
+      icon: "format_align_left",
+      active: textAlign === "left",
+      value: { textAlign: "left" }
+    },
     {
       icon: "format_align_center",
-      active: true,
-      value: { textAlign: "center" },
+      active: textAlign === "center",
+      value: { textAlign: "center" }
     },
     {
       icon: "format_align_right",
-      active: false,
-      value: { textAlign: "right" },
+      active: textAlign === "right",
+      value: { textAlign: "right" }
     },
-    { icon: "format_bold", active: false, value: { fontWeight: "bold" } },
-    { icon: "format_italic", active: false, value: { fontStyle: "italic" } },
+    {
+      icon: "format_bold",
+      active: fontWeight === "bold",
+      value: { fontWeight: fontWeight === "bold" ? "normal" : "bold" }
+    },
+    {
+      icon: "format_italic",
+      active: fontStyle === "italic",
+      value: { fontStyle: fontStyle === "italic" ? "normal" : "italic" }
+    },
     {
       icon: "format_underlined",
-      active: false,
-      value: { textDecoration: "underline" },
-    },
+      active: textDecoration === "underline",
+      value: {
+        textDecoration: textDecoration === "underline" ? "none" : "underline"
+      }
+    }
   ];
 
   return buttons.map(toButton).join("");

@@ -2,31 +2,29 @@ import { createToolbar } from "@/components/toolbar/toolbar.template";
 import { ComponentOptions } from "./../Excel/Excel";
 import { $, Dom } from "./../../core/dom";
 import { ExcelStateComponent } from "@core/ExcelStateComponent";
+
+export const initialStyles = {
+  textAlign: "center",
+  textDecoration: "none",
+  fontStyle: "normal",
+  fontWeight: "normal"
+};
+
 export class Toolbar extends ExcelStateComponent {
   constructor($root: Dom, options: ComponentOptions) {
     super($root, {
       ...options,
       listeners: ["click"],
       subscribe: [],
-      name: "Toolbar",
+      name: "Toolbar"
     });
+    this.prepare();
   }
   static className = "toolbar";
   prepare(): void {
-    console.log("toolbar prepare");
-
-    // const initialState = {
-    //   textAlign: "left",
-    //   textDecoration: "none",
-    //   fontStyle: "normal",
-    //   fontWeight: "normal",
-    // };
-
-    this.state = { j: "99" };
-    console.log("ccc", this);
+    this.initState(initialStyles);
   }
   get template() {
-    console.log("template", this.state);
     return createToolbar(this.state);
   }
 
@@ -36,7 +34,8 @@ export class Toolbar extends ExcelStateComponent {
 
   onClick(e: MouseEvent) {
     if ($(e.target as HTMLElement).data.type === "button") {
-      console.log($(e.target as HTMLElement).data.value);
+      const values = JSON.parse($(e.target as HTMLElement).data.value);
+      this.setState({ ...values });
     }
   }
 }
