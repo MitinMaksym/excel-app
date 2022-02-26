@@ -1,9 +1,11 @@
-type ListenersType = { [event: string]: Array<(data?: string) => void> };
+type ListenersType = {
+  [event: string]: Array<(data: any) => void>;
+};
 
 export class Emitter {
   listeners: ListenersType = {};
 
-  emit = (event: string, data?: string) => {
+  emit = <T>(event: string, data: T) => {
     if (!Array.isArray(this.listeners[event])) return false;
     this.listeners[event].forEach((listener) => {
       listener(data);
@@ -12,7 +14,7 @@ export class Emitter {
     return true;
   };
 
-  subscribe = (event: string, handler: (data?: string) => void) => {
+  subscribe = <T>(event: string, handler: (data: T) => void) => {
     this.listeners[event] = this.listeners[event] || [];
     this.listeners[event].push(handler);
 

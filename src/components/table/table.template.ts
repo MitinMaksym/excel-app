@@ -2,7 +2,7 @@ import { AppStateType } from "@/redux/initialState";
 
 const CODES = {
   A: 65,
-  Z: 90,
+  Z: 90
 };
 
 const DEFAULT_WIDTH = 120;
@@ -11,7 +11,7 @@ const DEFAULT_HEIGHT = 24;
 const toColumn = ({
   data,
   idx,
-  width,
+  width
 }: {
   data: string;
   idx: number;
@@ -29,15 +29,15 @@ const toChar = (_: string, idx: number) => {
 
 const toCell = (
   row: number,
-  colState: { [key: string]: number },
-  dataState: { [key: string]: string }
+  { dataState, colState, stylesState }: AppStateType
 ) => {
   return (_: string, col: number) => {
     const content = dataState[`${row}:${col}`] || "";
+    const styles = getStyles(stylesState[`${row}:${col}`] || {});
     return `<div class="row__cell" data-type="cell"  data-col = ${col} style="width:${getWidth(
       col,
       colState
-    )}" data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
+    )}; ${styles}"  data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
   };
 };
 const withWidthFrom = (state: AppStateType) => (data: string, idx: number) => {
@@ -72,10 +72,7 @@ export const createTable = (rowsCount = 10, state: AppStateType): string => {
 
   rows.push(createRow(state.rowState, cols, 0));
   for (let row = 0; row < rowsCount; row++) {
-    const cells = new Array(colCount)
-      .fill("")
-      .map(toCell(row, state.colState, state.dataState))
-      .join("");
+    const cells = new Array(colCount).fill("").map(toCell(row, state)).join("");
     rows.push(createRow(state.rowState, cells, row + 1));
   }
 
@@ -87,3 +84,16 @@ const getWidth = (col: number, colState: { [key: string]: number }) =>
 
 const getHeight = (row: number, rowState: { [key: string]: number }) =>
   (rowState[row] || DEFAULT_HEIGHT) + "px";
+
+const toSpinalCase = (string: string) => {
+  const re = /[A-Z]?[a-z]+/g;
+
+  const result = string.match(re)?.join("-").toLocaleLowerCase();
+  return result;
+};
+
+const getStyles = (stylesState: { [key: string]: string }) => {
+  return Object.keys(stylesState)
+    .map((key) => `${toSpinalCase(key)}:${stylesState[key]}`)
+    .join(";");
+};

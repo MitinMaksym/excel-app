@@ -1,3 +1,4 @@
+import { initialStyles } from "@/components/toolbar/Toolbar";
 import { AppStateType } from "@/redux/initialState";
 import { actions } from "./../../redux/actions";
 import { resize } from "./table.resize";
@@ -5,7 +6,13 @@ import { Dom, $ } from "./../../core/dom";
 import { createTable } from "./table.template";
 import { ExcelComponent } from "./../../core/ExcelComponent";
 import { TableSelection } from "./TableSelection";
-import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
+import {
+  getIdsFromGroup,
+  isCell,
+  matrix,
+  nextSelector,
+  shouldResize
+} from "./table.functions";
 import { ComponentOptions } from "../Excel/Excel";
 import { Key } from "@core/types";
 
@@ -16,8 +23,8 @@ export class Table extends ExcelComponent {
     super($root, {
       name: "Table",
       listeners: ["mousedown", "keydown", "input"],
-      subscribe: ["colState"],
-      ...options,
+      subscribe: ["colState", "currentStyles"],
+      ...options
     });
     this.selection = new TableSelection();
   }
@@ -27,14 +34,27 @@ export class Table extends ExcelComponent {
 
     const $cell = this.$root.find(`div[data-id="0:0"]`);
     this.selectCell($cell);
+    $cell.css(this.$getState().currentStyles);
 
-    this.$on("FORMULA:TYPING", (data?: string) => {
+    this.$on<string>("FORMULA:TYPING", (data) => {
       this.selection.activeCell?.html(data);
       this.updateTextInStore(data ?? "");
     });
     this.$on("FORMULA:DONE", () => {
       this.selection.activeCell?.focus();
     });
+    this.$on<AppStateType["currentStyles"]>(
+      "TOOLBAR:STYLES-CHANGED",
+      (styles) => {
+        this.$dispatch(actions.changeStyles(styles || {}));
+        this.$dispatch(
+          actions.saveStyles({
+            id: getIdsFromGroup(this.selection.group),
+            value: styles
+          })
+        );
+      }
+    );
   }
   toHTML(): string {
     return createTable(10, this.$getState());
@@ -79,20 +99,27 @@ export class Table extends ExcelComponent {
   }
 
   storeChanged(state: Partial<AppStateType>) {
-    console.log(state);
+    this.selection.applyStyles(state.currentStyles || {});
   }
 
   updateTextInStore(text: string) {
     this.$dispatch(
       actions.changeText({
         id: this.selection.activeCell?.data.id ?? "",
-        value: text,
+        value: text
       })
     );
   }
 
   selectCell(cell: Dom) {
     this.selection.selectCell(cell);
-    this.updateTextInStore(this.selection.activeCell?.text() as string)
+    this.updateTextInStore(this.selection.activeCell?.text() as string);
+    this.$dispatch(
+      actions.changeStyles(
+        // @ts-ignore
+
+        this.selection.activeCell?.getStyles(Object.keys(initialStyles))
+      )
+    );
   }
 }

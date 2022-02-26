@@ -1,3 +1,5 @@
+import { initialState } from "./../../redux/initialState";
+import { AppStateType } from "@/redux/initialState";
 import { createToolbar } from "@/components/toolbar/toolbar.template";
 import { ComponentOptions } from "./../Excel/Excel";
 import { $, Dom } from "./../../core/dom";
@@ -15,14 +17,15 @@ export class Toolbar extends ExcelStateComponent {
     super($root, {
       ...options,
       listeners: ["click"],
-      subscribe: [],
+      subscribe: ["currentStyles"],
       name: "Toolbar"
     });
     this.prepare();
   }
   static className = "toolbar";
   prepare(): void {
-    this.initState(initialStyles);
+    const styles = this.$getState().currentStyles;
+    this.initState((styles as typeof initialState) || initialStyles);
   }
   get template() {
     return createToolbar(this.state);
@@ -32,10 +35,14 @@ export class Toolbar extends ExcelStateComponent {
     return this.template;
   }
 
+  storeChanged(state: Partial<AppStateType>) {
+    this.setState(state.currentStyles || {});
+  }
+
   onClick(e: MouseEvent) {
     if ($(e.target as HTMLElement).data.type === "button") {
       const values = JSON.parse($(e.target as HTMLElement).data.value);
-      this.setState({ ...values });
+      this.$emit("TOOLBAR:STYLES-CHANGED", values);
     }
   }
 }

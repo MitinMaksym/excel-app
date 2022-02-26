@@ -11,7 +11,7 @@ export class ExcelStateComponent extends ExcelComponent {
     return JSON.stringify(this.state, null, 2);
   }
 
-  setState(newState: typeof initialStyles) {
+  setState(newState: Partial<typeof initialStyles>) {
     this.state = { ...this.state, ...newState };
     this.$root.html(this.template);
   }

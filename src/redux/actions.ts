@@ -1,20 +1,31 @@
+import { AppStateType } from "@/redux/initialState";
 import { InferActionsTypes } from "@core/types";
 
 export const actions = {
   init: () =>
     ({
-      type: "INIT",
+      type: "INIT"
     } as const),
   tableResize: (data: TableResizeData) =>
     ({
       type: "TABLE:RESIZE",
-      data,
+      data
     } as const),
   changeText: (data: ChangeTextData) =>
     ({
       type: "CHANGE_TEXT",
-      data,
+      data
     } as const),
+  changeStyles: (data: AppStateType["currentStyles"]) =>
+    ({
+      type: "CHANGE_STYLES",
+      data
+    } as const),
+  saveStyles: (data: { id: string[]; value: { [key: string]: string } }) =>
+    ({
+      type: "SAVE_STYLES",
+      data
+    } as const)
 };
 
 export type ActionsTypes = InferActionsTypes<typeof actions>;

@@ -35,7 +35,7 @@ export class ExcelComponent extends DomListener {
     // parent prepare hook
   }
 
-  protected $on(event: string, fn: (data?: string) => void) {
+  protected $on<T>(event: string, fn: (data: T) => void) {
     const unsub = this.emitter.subscribe(event, fn);
     this.unsubscribers.push(unsub);
   }

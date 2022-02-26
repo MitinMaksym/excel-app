@@ -1,3 +1,5 @@
+import { DataType } from "@/redux/initialState";
+import { CellCoords } from "@core/types";
 export class Dom {
   public $el: HTMLElement;
   constructor(selector: string | HTMLElement) {
@@ -90,16 +92,25 @@ export class Dom {
     this.$el.classList.remove(className);
     return this;
   };
-
-  id = (parse: boolean): { row: number; col: number } => {
+  id(parse?: undefined): string;
+  id(parse: true): CellCoords;
+  id(parse?: boolean): { row: number; col: number } | string {
     if (parse) {
       const coords = this.$el.dataset.id.split(":");
       return {
         row: +coords[0],
-        col: +coords[1],
+        col: +coords[1]
       };
-    }
-  };
+    } else return this.$el.dataset.id;
+  }
+
+  getStyles(styleKeys: string[]) {
+    const styles: DataType<string> = {};
+    styleKeys.forEach((key: string) => {
+      styles[key] = this.$el.style[key as any];
+    });
+    return styles;
+  }
 }
 
 export function $(selector: string | HTMLElement): Dom {
