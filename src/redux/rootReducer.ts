@@ -10,13 +10,18 @@ export const rootReducer = (
   switch (action.type) {
     case "INIT":
       return state;
+    case "CHANGE_TITLE":
+      return {
+        ...state,
+        title: action.data
+      };
     case "TABLE:RESIZE":
       const field = action.data.type === "col" ? "colState" : "rowState";
       return {
         ...state,
         [field]: {
           ...state[field],
-          ...action.data.value
+          [action.data.id]: action.data.value
         }
       };
     case "CHANGE_TEXT":

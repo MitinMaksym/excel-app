@@ -4,13 +4,7 @@ import { createToolbar } from "@/components/toolbar/toolbar.template";
 import { ComponentOptions } from "./../Excel/Excel";
 import { $, Dom } from "./../../core/dom";
 import { ExcelStateComponent } from "@core/ExcelStateComponent";
-
-export const initialStyles = {
-  textAlign: "center",
-  textDecoration: "none",
-  fontStyle: "normal",
-  fontWeight: "normal"
-};
+import { initialStyles } from "@/constants";
 
 export class Toolbar extends ExcelStateComponent {
   constructor($root: Dom, options: ComponentOptions) {

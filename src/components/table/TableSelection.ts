@@ -17,6 +17,9 @@ export class TableSelection {
     this.group.push(cell);
     this.activeCell = cell;
   };
+  get getIdsFromGroup() {
+    return this.group.map((item) => item.id());
+  }
 
   selectGroup(cells: Dom[]): void {
     this.clear();

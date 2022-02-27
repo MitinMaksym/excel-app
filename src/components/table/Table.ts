@@ -1,4 +1,3 @@
-import { initialStyles } from "@/components/toolbar/Toolbar";
 import { AppStateType } from "@/redux/initialState";
 import { actions } from "./../../redux/actions";
 import { resize } from "./table.resize";
@@ -6,15 +5,10 @@ import { Dom, $ } from "./../../core/dom";
 import { createTable } from "./table.template";
 import { ExcelComponent } from "./../../core/ExcelComponent";
 import { TableSelection } from "./TableSelection";
-import {
-  getIdsFromGroup,
-  isCell,
-  matrix,
-  nextSelector,
-  shouldResize
-} from "./table.functions";
+import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
 import { ComponentOptions } from "../Excel/Excel";
 import { Key } from "@core/types";
+import { initialStyles } from "@/constants";
 
 export class Table extends ExcelComponent {
   static className = "table";
@@ -49,7 +43,7 @@ export class Table extends ExcelComponent {
         this.$dispatch(actions.changeStyles(styles || {}));
         this.$dispatch(
           actions.saveStyles({
-            id: getIdsFromGroup(this.selection.group),
+            id: this.selection.getIdsFromGroup,
             value: styles
           })
         );
@@ -116,9 +110,7 @@ export class Table extends ExcelComponent {
     this.updateTextInStore(this.selection.activeCell?.text() as string);
     this.$dispatch(
       actions.changeStyles(
-        // @ts-ignore
-
-        this.selection.activeCell?.getStyles(Object.keys(initialStyles))
+        this.selection.activeCell?.getStyles(Object.keys(initialStyles)) || {}
       )
     );
   }

@@ -6,6 +6,11 @@ export const actions = {
     ({
       type: "INIT"
     } as const),
+  changeTitle: (data: string) =>
+    ({
+      type: "CHANGE_TITLE",
+      data
+    } as const),
   tableResize: (data: TableResizeData) =>
     ({
       type: "TABLE:RESIZE",
@@ -31,7 +36,8 @@ export const actions = {
 export type ActionsTypes = InferActionsTypes<typeof actions>;
 export type TableResizeData = {
   type: string;
-  value: { [key: string]: number };
+  id: string;
+  value: number;
 };
 export type ChangeTextData = {
   id: string;

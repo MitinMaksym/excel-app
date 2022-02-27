@@ -1,3 +1,4 @@
+import { initialStyles } from "@/constants";
 import { AppStateType } from "@/redux/initialState";
 
 const CODES = {
@@ -33,11 +34,14 @@ const toCell = (
 ) => {
   return (_: string, col: number) => {
     const content = dataState[`${row}:${col}`] || "";
-    const styles = getStyles(stylesState[`${row}:${col}`] || {});
+    const styles = getStyles({
+      ...initialStyles,
+      ...stylesState[`${row}:${col}`]
+    });
     return `<div class="row__cell" data-type="cell"  data-col = ${col} style="width:${getWidth(
       col,
       colState
-    )}; ${styles}"  data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
+    )}; ${styles};"  data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
   };
 };
 const withWidthFrom = (state: AppStateType) => (data: string, idx: number) => {

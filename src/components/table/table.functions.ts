@@ -46,7 +46,3 @@ export const nextSelector = (key: string, currentCell: CellCoords): string => {
 
   return `[data-id="${row}:${col}"]`;
 };
-
-export const getIdsFromGroup = (group: Dom[]) => {
-  return group.map((item) => item.id());
-};

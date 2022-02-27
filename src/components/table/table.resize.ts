@@ -37,15 +37,14 @@ export const resize = (e: MouseEvent, $root: Dom): Promise<TableResizeData> => {
       }
       resolve({
         type: $resizer.data.resize,
-        value: {
-          [$parent.data[type ?? ""]]: value,
-        },
+        id: $parent.data[type ?? ""],
+        value
       });
 
       $resizer.css({
         right: "0",
         bottom: "0",
-        opacity: "0",
+        opacity: "0"
       });
     };
   });

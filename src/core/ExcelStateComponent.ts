@@ -1,4 +1,4 @@
-import { initialStyles } from "@/components/toolbar/Toolbar";
+import { initialStyles } from "@/constants";
 import { ExcelComponent } from "./ExcelComponent";
 
 export class ExcelStateComponent extends ExcelComponent {

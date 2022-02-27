@@ -17,8 +17,8 @@ export class Dom {
       return this.$el.innerHTML.trim();
     }
   };
-
-  text = (text?: string) => {
+  text(text?: undefined): string;
+  text(text?: string) {
     if (typeof text === "string") {
       this.$el.textContent = text;
       return this;
@@ -27,7 +27,7 @@ export class Dom {
       return (this.$el as HTMLInputElement).value;
     }
     return this.$el.textContent?.trim();
-  };
+  }
 
   focus = () => {
     this.$el.focus();
