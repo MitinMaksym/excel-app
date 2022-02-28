@@ -8,15 +8,15 @@ export class Dom {
         ? document.querySelector(selector)
         : selector;
   }
-
-  html = (html?: string): string | Dom => {
+  html(html: string): Dom;
+  html(html?: string): string | Dom {
     if (typeof html === "string") {
       this.$el.innerHTML = html;
       return this;
     } else {
       return this.$el.innerHTML.trim();
     }
-  };
+  }
   text(text: string): Dom;
   text(text?: undefined): string;
   text(text?: string | undefined): string | Dom {
@@ -100,7 +100,7 @@ export class Dom {
       const coords = this.$el.dataset.id.split(":");
       return {
         row: +coords[0],
-        col: +coords[1],
+        col: +coords[1]
       };
     } else return this.$el.dataset.id;
   }
