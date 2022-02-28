@@ -16,11 +16,11 @@ const store: Store = createStore(rootReducer, initialState);
 store.subscribe(
   debounce((state: AppStateType) => {
     storage("excel-state", state);
-  }, 2000)
+  }, 200)
 );
 const excel = new Excel("#app", {
   components: [Header, Toolbar, Formula, Table],
-  store: store
+  store: store,
 });
 
 excel.render();

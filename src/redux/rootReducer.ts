@@ -13,7 +13,7 @@ export const rootReducer = (
     case "CHANGE_TITLE":
       return {
         ...state,
-        title: action.data
+        title: action.data,
       };
     case "TABLE:RESIZE":
       const field = action.data.type === "col" ? "colState" : "rowState";
@@ -21,8 +21,8 @@ export const rootReducer = (
         ...state,
         [field]: {
           ...state[field],
-          [action.data.id]: action.data.value
-        }
+          [action.data.id]: action.data.value,
+        },
       };
     case "CHANGE_TEXT":
       const dataState = state.dataState || {};
@@ -31,22 +31,28 @@ export const rootReducer = (
         currentText: action.data.value,
         dataState: {
           ...dataState,
-          [action.data.id]: action.data.value
-        }
+          [action.data.id]: action.data.value,
+        },
+      };
+
+    case "CLEAR_CURRENT_TEXT":
+      return {
+        ...state,
+        currentText: "",
       };
 
     case "CHANGE_STYLES":
       return {
         ...state,
-        currentStyles: { ...state.currentStyles, ...action.data }
+        currentStyles: { ...state.currentStyles, ...action.data },
       };
     case "SAVE_STYLES":
       return {
         ...state,
         ["stylesState"]: {
           ...state.stylesState,
-          ...applyStylesForIds(state, action)
-        }
+          ...applyStylesForIds(state, action),
+        },
       };
 
     default:
@@ -61,7 +67,7 @@ const applyStylesForIds = (
   return action.data.id.reduce((acc, id) => {
     return {
       ...acc,
-      [id]: { ...state.stylesState[id], ...action.data.value }
+      [id]: { ...state.stylesState[id], ...action.data.value },
     };
   }, {});
 };

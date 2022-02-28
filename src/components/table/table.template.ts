@@ -1,9 +1,10 @@
 import { initialStyles } from "@/constants";
 import { AppStateType } from "@/redux/initialState";
+import { parse } from "@core/utils";
 
 const CODES = {
   A: 65,
-  Z: 90
+  Z: 90,
 };
 
 const DEFAULT_WIDTH = 120;
@@ -12,7 +13,7 @@ const DEFAULT_HEIGHT = 24;
 const toColumn = ({
   data,
   idx,
-  width
+  width,
 }: {
   data: string;
   idx: number;
@@ -36,12 +37,14 @@ const toCell = (
     const content = dataState[`${row}:${col}`] || "";
     const styles = getStyles({
       ...initialStyles,
-      ...stylesState[`${row}:${col}`]
+      ...stylesState[`${row}:${col}`],
     });
-    return `<div class="row__cell" data-type="cell"  data-col = ${col} style="width:${getWidth(
+    return `<div class="row__cell" data-type="cell" data-value="${content}"  data-col = "${col}" style="width:${getWidth(
       col,
       colState
-    )}; ${styles};"  data-id = ${`${row}:${col}`}  contenteditable>  ${content}</div>`;
+    )}; ${styles};"  data-id = ${`${row}:${col}`}  contenteditable>  ${parse(
+      content
+    )}</div>`;
   };
 };
 const withWidthFrom = (state: AppStateType) => (data: string, idx: number) => {

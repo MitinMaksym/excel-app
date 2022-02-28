@@ -21,8 +21,7 @@ export class Formula extends ExcelComponent {
 
   storeChanged(state: Partial<AppStateType>) {
     const $el = this.$root.find(".formula__input");
-    console.log(state)
-    $el.text(state.currentText);
+    $el.text(state.currentText ?? "");
   }
 
   toHTML(): string {

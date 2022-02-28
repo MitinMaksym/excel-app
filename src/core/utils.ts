@@ -45,3 +45,15 @@ export const debounce = (fn: any, wait: number) => {
     timeout = setTimeout(later, wait);
   };
 };
+
+export const parse = (value: string) => {
+  try {
+    if (value.startsWith("=")) {
+      const parsed = eval(value.slice(1));
+      return parsed;
+    }
+    return value;
+  } catch (error) {
+    return value;
+  }
+};

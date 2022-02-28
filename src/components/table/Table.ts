@@ -9,6 +9,7 @@ import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
 import { ComponentOptions } from "../Excel/Excel";
 import { Key } from "@core/types";
 import { initialStyles } from "@/constants";
+import { parse } from "@core/utils";
 
 export class Table extends ExcelComponent {
   static className = "table";
@@ -18,7 +19,7 @@ export class Table extends ExcelComponent {
       name: "Table",
       listeners: ["mousedown", "keydown", "input"],
       subscribe: ["colState", "currentStyles"],
-      ...options
+      ...options,
     });
     this.selection = new TableSelection();
   }
@@ -31,7 +32,7 @@ export class Table extends ExcelComponent {
     $cell.css(this.$getState().currentStyles);
 
     this.$on<string>("FORMULA:TYPING", (data) => {
-      this.selection.activeCell?.html(data);
+      this.selection.activeCell?.attr("data-value", data).text(parse(data));
       this.updateTextInStore(data ?? "");
     });
     this.$on("FORMULA:DONE", () => {
@@ -44,7 +45,7 @@ export class Table extends ExcelComponent {
         this.$dispatch(
           actions.saveStyles({
             id: this.selection.getIdsFromGroup,
-            value: styles
+            value: styles,
           })
         );
       }
@@ -83,13 +84,14 @@ export class Table extends ExcelComponent {
       e.preventDefault();
       const nextCellSelector = nextSelector(e.key, currentCellId);
       this.selection.selectCell(this.$root.find(nextCellSelector));
-      this.$emit("TABLE:SELECT", this.selection.activeCell?.text() as string);
+      this.$emit("TABLE:SELECT", this.selection.activeCell?.text());
     }
   }
 
   onInput(e: InputEvent) {
     const target = e.target as HTMLDivElement;
-    this.updateTextInStore($(target).text() as string);
+
+    this.updateTextInStore($(target).text());
   }
 
   storeChanged(state: Partial<AppStateType>) {
@@ -100,14 +102,17 @@ export class Table extends ExcelComponent {
     this.$dispatch(
       actions.changeText({
         id: this.selection.activeCell?.data.id ?? "",
-        value: text
+        value: text,
       })
     );
   }
 
   selectCell(cell: Dom) {
+    this.$dispatch(actions.clearCurrentText());
     this.selection.selectCell(cell);
-    this.updateTextInStore(this.selection.activeCell?.text() as string);
+    this.updateTextInStore(
+      this.selection.activeCell?.attr("data-value") as string
+    );
     this.$dispatch(
       actions.changeStyles(
         this.selection.activeCell?.getStyles(Object.keys(initialStyles)) || {}
