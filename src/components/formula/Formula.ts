@@ -1,6 +1,8 @@
+import { ComponentOptions } from "./../Excel/Excel";
 import { Dom } from "@core/dom";
 import { ExcelComponent } from "@core/ExcelComponent";
-import { ComponentOptions, Key } from "@core/types";
+import { Key } from "@core/types";
+import { AppStateType } from "@/redux/initialState";
 
 export class Formula extends ExcelComponent {
   static className = "formula";
@@ -8,20 +10,18 @@ export class Formula extends ExcelComponent {
     super($root, {
       name: "Formula",
       listeners: ["input", "keydown"],
+      subscribe: ["currentText"],
       ...options,
     });
   }
 
   init(): void {
     super.init();
-    const $el = this.$root.find(".formula__input");
+  }
 
-    this.$on("TABLE:TYPING", (data?: string) => {
-      $el.text(data);
-    });
-    this.$on("TABLE:SELECT", (data?: string) => {
-      $el.text(data);
-    });
+  storeChanged(state: Partial<AppStateType>) {
+    const $el = this.$root.find(".formula__input");
+    $el.text(state.currentText ?? "");
   }
 
   toHTML(): string {

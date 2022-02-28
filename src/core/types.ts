@@ -1,5 +1,3 @@
-import { Emitter } from "./Emitter";
-
 export enum Key {
   ArrowLeft = "ArrowLeft",
   ArrowRight = "ArrowRight",
@@ -7,7 +5,7 @@ export enum Key {
   ArrowDown = "ArrowDown",
   Shift = "Shift",
   Tab = "Tab",
-  Enter = "Enter"
+  Enter = "Enter",
 }
 
 export type CellCoords = {
@@ -15,8 +13,10 @@ export type CellCoords = {
   col: number;
 };
 
-export type ComponentOptions = {
-  emitter: Emitter;
-};
-
 export type Nullable<T> = T | null;
+
+export type InferActionsTypes<T> = T extends {
+  [key: string]: (...args: any[]) => infer U;
+}
+  ? U
+  : never;

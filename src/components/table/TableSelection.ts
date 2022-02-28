@@ -1,3 +1,4 @@
+import { DataType } from "./../../redux/initialState";
 import { Nullable } from "@core/types";
 import { Dom } from "@core/dom";
 export class TableSelection {
@@ -16,6 +17,9 @@ export class TableSelection {
     this.group.push(cell);
     this.activeCell = cell;
   };
+  get getIdsFromGroup() {
+    return this.group.map((item) => item.id());
+  }
 
   selectGroup(cells: Dom[]): void {
     this.clear();
@@ -28,5 +32,9 @@ export class TableSelection {
   clear(): void {
     this.group.forEach((cell) => cell.removeClass(TableSelection.className));
     this.group = [];
+  }
+
+  applyStyles(currentStyles: DataType<string>) {
+    this.group.forEach((cell) => cell.css(currentStyles));
   }
 }

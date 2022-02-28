@@ -1,3 +1,5 @@
+import { DataType } from "@/redux/initialState";
+import { CellCoords } from "@core/types";
 export class Dom {
   public $el: HTMLElement;
   constructor(selector: string | HTMLElement) {
@@ -15,17 +17,18 @@ export class Dom {
       return this.$el.innerHTML.trim();
     }
   };
-
-  text = (text?: string) => {
-    if (typeof text === "string") {
+  text(text: string): Dom;
+  text(text?: undefined): string;
+  text(text?: string | undefined): string | Dom {
+    if (typeof text !== "undefined") {
       this.$el.textContent = text;
       return this;
     }
     if (this.$el.tagName.toLowerCase() === "input") {
       return (this.$el as HTMLInputElement).value;
     }
-    return this.$el.textContent?.trim();
-  };
+    return this.$el.textContent?.trim() || "";
+  }
 
   focus = () => {
     this.$el.focus();
@@ -90,16 +93,35 @@ export class Dom {
     this.$el.classList.remove(className);
     return this;
   };
-
-  id = (parse: boolean): { row: number; col: number } => {
+  id(parse?: undefined): string;
+  id(parse: true): CellCoords;
+  id(parse?: boolean): { row: number; col: number } | string {
     if (parse) {
       const coords = this.$el.dataset.id.split(":");
       return {
         row: +coords[0],
         col: +coords[1],
       };
+    } else return this.$el.dataset.id;
+  }
+
+  getStyles(styleKeys: string[]) {
+    const styles: DataType<string> = {};
+    styleKeys.forEach((key: string) => {
+      styles[key] = this.$el.style[key as any];
+    });
+    return styles;
+  }
+  attr(attrName: string, value: string): Dom;
+  attr(attrName: string, value?: undefined): string;
+  attr(attrName: string, value: string | undefined): Dom | string {
+    if (value) {
+      this.$el.setAttribute(attrName, value);
+      return this;
+    } else {
+      return this.$el.getAttribute(attrName) ?? "";
     }
-  };
+  }
 }
 
 export function $(selector: string | HTMLElement): Dom {

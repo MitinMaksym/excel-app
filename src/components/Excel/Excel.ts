@@ -2,7 +2,13 @@ import { Emitter } from "./../../core/Emitter";
 import { Dom } from "./../../core/dom";
 import { $ } from "../../core/dom";
 import { ExcelComponent } from "../../core/ExcelComponent";
-import { ComponentOptions } from "@core/types";
+import { Store } from "@core/createStore";
+import { StoreSubscriber } from "@core/storeSubscriber";
+
+export type ComponentOptions = {
+  emitter: Emitter;
+  store: Store;
+};
 
 type Component = {
   new ($root: Dom, options: ComponentOptions): ExcelComponent;
@@ -11,23 +17,31 @@ type Component = {
 
 type Options = {
   components: Component[];
+  store: Store;
 };
 export class Excel {
   static className = "excel";
   private components: Component[];
   private renderedComponents: Array<ExcelComponent>;
   private $el: Dom;
-  public emitter: Emitter = new Emitter();
+  private emitter: Emitter = new Emitter();
+  private store: Store;
+  private subscriber: StoreSubscriber;
 
   constructor(selector: string, options: Options) {
     this.$el = $(selector);
     this.components = options.components || [];
     this.renderedComponents = [];
+    this.store = options.store;
+    this.subscriber = new StoreSubscriber(this.store);
   }
 
   private getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
-    const componentOptions = { emitter: this.emitter };
+    const componentOptions: ComponentOptions = {
+      emitter: this.emitter,
+      store: this.store,
+    };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
       const component = new Component($el, componentOptions);
@@ -40,6 +54,7 @@ export class Excel {
 
   render(): void {
     this.$el.insert(this.getRoot());
+    this.subscriber.subscribeComponents(this.renderedComponents);
     this.renderedComponents.forEach((component) => {
       component.init();
     });
@@ -47,5 +62,6 @@ export class Excel {
 
   destroy() {
     this.renderedComponents.forEach((component) => component.destroy());
+    this.subscriber.unsubscribeComponents();
   }
 }

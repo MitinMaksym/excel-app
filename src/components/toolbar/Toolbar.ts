@@ -1,28 +1,42 @@
-import { ComponentOptions } from "@core/types";
-import { Dom } from "./../../core/dom";
-import { ExcelComponent } from "@core/ExcelComponent";
-export class Toolbar extends ExcelComponent {
+import { initialState } from "./../../redux/initialState";
+import { AppStateType } from "@/redux/initialState";
+import { createToolbar } from "@/components/toolbar/toolbar.template";
+import { ComponentOptions } from "./../Excel/Excel";
+import { $, Dom } from "./../../core/dom";
+import { ExcelStateComponent } from "@core/ExcelStateComponent";
+import { initialStyles } from "@/constants";
+
+export class Toolbar extends ExcelStateComponent {
   constructor($root: Dom, options: ComponentOptions) {
-    super($root, { ...options, listeners: [], name: "Toolbar" });
+    super($root, {
+      ...options,
+      listeners: ["click"],
+      subscribe: ["currentStyles"],
+      name: "Toolbar"
+    });
+    this.prepare();
   }
   static className = "toolbar";
+  prepare(): void {
+    const styles = this.$getState().currentStyles;
+    this.initState((styles as typeof initialState) || initialStyles);
+  }
+  get template() {
+    return createToolbar(this.state);
+  }
 
   toHTML(): string {
-    return `
-        <div class="button">
-          <i class="material-icons">format_align_left</i>
-        </div>
-        <div class="button">
-          <i class="material-icons">format_align_center</i>
-        </div>
-        <div class="button">
-          <i class="material-icons">format_align_right</i>
-        </div>
-        <div class="button"><i class="material-icons">format_bold</i></div>
-        <div class="button"><i class="material-icons">format_italic</i></div>
-        <div class="button">
-          <i class="material-icons">format_inderlined</i>
-        </div>
-      `;
+    return this.template;
+  }
+
+  storeChanged(state: Partial<AppStateType>) {
+    this.setState(state.currentStyles || {});
+  }
+
+  onClick(e: MouseEvent) {
+    if ($(e.target as HTMLElement).data.type === "button") {
+      const values = JSON.parse($(e.target as HTMLElement).data.value);
+      this.$emit("TOOLBAR:STYLES-CHANGED", values);
+    }
   }
 }
