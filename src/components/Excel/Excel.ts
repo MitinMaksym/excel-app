@@ -1,8 +1,8 @@
-import { Emitter } from "./../../core/Emitter";
-import { Dom } from "./../../core/dom";
-import { $ } from "../../core/dom";
-import { ExcelComponent } from "../../core/ExcelComponent";
+import { actions } from "@/redux/actions";
 import { Store } from "@core/createStore";
+import { $, Dom } from "@core/dom";
+import { Emitter } from "@core/Emitter";
+import { ExcelComponent } from "@core/ExcelComponent";
 import { StoreSubscriber } from "@core/storeSubscriber";
 
 export type ComponentOptions = {
@@ -55,6 +55,7 @@ export class Excel {
     this.renderedComponents.forEach((component) => {
       component.init();
     });
+    this.store.dispatch(actions.setOpenDate());
   }
 
   destroy() {

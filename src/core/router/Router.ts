@@ -30,7 +30,9 @@ export class Router {
     }
 
     this.$placeholder.clear();
-    const Page = this.pageFromHashUrl(ActiveRoute.path);
+    const Page = ActiveRoute.path.includes("excel")
+      ? this.routes.excel
+      : this.routes.dashboard;
     this.page = new Page(ActiveRoute.param);
     this.$placeholder.append(this.page.getRoot());
     this.page.afterRender();
@@ -38,16 +40,5 @@ export class Router {
 
   destroy() {
     window.removeEventListener("hashchange", this.hashChangeHandler);
-  }
-
-  private pageFromHashUrl(path: string) {
-    switch (path) {
-      case "dashboard":
-        return this.routes.dashboard;
-      case "excel":
-        return this.routes.excel;
-      default:
-        return this.routes.dashboard;
-    }
   }
 }

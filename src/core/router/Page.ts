@@ -1,7 +1,7 @@
 import { Dom } from "@core/dom";
 
 export abstract class Page {
-  private params;
+  public params;
   constructor(params: string) {
     this.params = params;
   }
