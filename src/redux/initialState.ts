@@ -1,10 +1,10 @@
-import { initialStyles } from "@/constants";
-import { storage } from "@core/utils";
+import { defaultTitle, initialStyles } from "@/constants";
 
 export type DataType<T> = { [key: string]: T };
 
 export type AppStateType = {
   title: string;
+  openedAt: string;
   colState: DataType<number>;
   rowState: DataType<number>;
   currentText: string;
@@ -14,7 +14,8 @@ export type AppStateType = {
 };
 
 export const defaultState: AppStateType = {
-  title: "",
+  title: defaultTitle,
+  openedAt: new Date().toJSON(),
   colState: {},
   rowState: {},
   currentText: "",
@@ -23,6 +24,11 @@ export const defaultState: AppStateType = {
   stylesState: {}
 };
 
-export const initialState = storage("excel-state")
-  ? storage("excel-state")
-  : defaultState;
+export const normalizeState = (state: AppStateType): AppStateType => ({
+  ...state,
+  currentText: "",
+  currentStyles: {}
+});
+
+export const normalizedInitialState = (state: AppStateType) =>
+  state ? normalizeState(state) : defaultState;

@@ -4,37 +4,41 @@ import { InferActionsTypes } from "@core/types";
 export const actions = {
   init: () =>
     ({
-      type: "INIT",
+      type: "INIT"
     } as const),
   changeTitle: (data: string) =>
     ({
       type: "CHANGE_TITLE",
-      data,
+      data
+    } as const),
+  setOpenDate: () =>
+    ({
+      type: "SET_OPEN_DATE"
     } as const),
   tableResize: (data: TableResizeData) =>
     ({
       type: "TABLE:RESIZE",
-      data,
+      data
     } as const),
   changeText: (data: ChangeTextData) =>
     ({
       type: "CHANGE_TEXT",
-      data,
+      data
     } as const),
   clearCurrentText: () =>
     ({
-      type: "CLEAR_CURRENT_TEXT",
+      type: "CLEAR_CURRENT_TEXT"
     } as const),
   changeStyles: (data: AppStateType["currentStyles"]) =>
     ({
       type: "CHANGE_STYLES",
-      data,
+      data
     } as const),
   saveStyles: (data: { id: string[]; value: { [key: string]: string } }) =>
     ({
       type: "SAVE_STYLES",
-      data,
-    } as const),
+      data
+    } as const)
 };
 
 export type ActionsTypes = InferActionsTypes<typeof actions>;

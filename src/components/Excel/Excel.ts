@@ -1,8 +1,8 @@
-import { Emitter } from "./../../core/Emitter";
-import { Dom } from "./../../core/dom";
-import { $ } from "../../core/dom";
-import { ExcelComponent } from "../../core/ExcelComponent";
+import { actions } from "@/redux/actions";
 import { Store } from "@core/createStore";
+import { $, Dom } from "@core/dom";
+import { Emitter } from "@core/Emitter";
+import { ExcelComponent } from "@core/ExcelComponent";
 import { StoreSubscriber } from "@core/storeSubscriber";
 
 export type ComponentOptions = {
@@ -23,24 +23,22 @@ export class Excel {
   static className = "excel";
   private components: Component[];
   private renderedComponents: Array<ExcelComponent>;
-  private $el: Dom;
   private emitter: Emitter = new Emitter();
   private store: Store;
   private subscriber: StoreSubscriber;
 
-  constructor(selector: string, options: Options) {
-    this.$el = $(selector);
+  constructor(options: Options) {
     this.components = options.components || [];
     this.renderedComponents = [];
     this.store = options.store;
     this.subscriber = new StoreSubscriber(this.store);
   }
 
-  private getRoot = (): Dom => {
+  public getRoot = (): Dom => {
     const excelRoot = $.create("div", Excel.className);
     const componentOptions: ComponentOptions = {
       emitter: this.emitter,
-      store: this.store,
+      store: this.store
     };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
@@ -52,12 +50,12 @@ export class Excel {
     return excelRoot;
   };
 
-  render(): void {
-    this.$el.insert(this.getRoot());
+  init(): void {
     this.subscriber.subscribeComponents(this.renderedComponents);
     this.renderedComponents.forEach((component) => {
       component.init();
     });
+    this.store.dispatch(actions.setOpenDate());
   }
 
   destroy() {
