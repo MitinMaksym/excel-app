@@ -4,6 +4,7 @@ import { $, Dom } from "@core/dom";
 import { Emitter } from "@core/Emitter";
 import { ExcelComponent } from "@core/ExcelComponent";
 import { StoreSubscriber } from "@core/storeSubscriber";
+import { preventDefault } from "@core/utils";
 
 export type ComponentOptions = {
   emitter: Emitter;
@@ -38,7 +39,7 @@ export class Excel {
     const excelRoot = $.create("div", Excel.className);
     const componentOptions: ComponentOptions = {
       emitter: this.emitter,
-      store: this.store
+      store: this.store,
     };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);
@@ -51,6 +52,9 @@ export class Excel {
   };
 
   init(): void {
+    if (process.env.NODE_ENV === "production") {
+      document.addEventListener("contextmenu", preventDefault);
+    }
     this.subscriber.subscribeComponents(this.renderedComponents);
     this.renderedComponents.forEach((component) => {
       component.init();
@@ -61,5 +65,6 @@ export class Excel {
   destroy() {
     this.renderedComponents.forEach((component) => component.destroy());
     this.subscriber.unsubscribeComponents();
+    document.removeEventListener("contextmenu", preventDefault);
   }
 }

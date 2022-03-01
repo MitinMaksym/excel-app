@@ -57,3 +57,7 @@ export const parse = (value: string) => {
     return value;
   }
 };
+
+export const preventDefault = (e: Event) => {
+  e.preventDefault();
+};

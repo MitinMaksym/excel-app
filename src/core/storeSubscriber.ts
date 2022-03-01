@@ -34,6 +34,10 @@ export class StoreSubscriber {
         }
       });
       this.prevState = JSON.parse(JSON.stringify(this.store.getState()));
+      if (process.env.NODE_ENV === "development") {
+        // @ts-ignore
+        window.redux = this.prevState;
+      }
     });
   }
 
