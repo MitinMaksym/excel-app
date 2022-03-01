@@ -110,9 +110,10 @@ export class Table extends ExcelComponent {
   selectCell(cell: Dom) {
     this.$dispatch(actions.clearCurrentText());
     this.selection.selectCell(cell);
-    this.updateTextInStore(
-      this.selection.activeCell?.attr("data-value") as string
-    );
+    const cellContent = this.selection.activeCell?.attr("data-value") as string;
+
+    this.updateTextInStore(cellContent);
+
     this.$dispatch(
       actions.changeStyles(
         this.selection.activeCell?.getStyles(Object.keys(initialStyles)) || {}
