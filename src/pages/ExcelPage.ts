@@ -5,7 +5,7 @@ import { Table } from "@/components/table/Table";
 import { Toolbar } from "@/components/toolbar/Toolbar";
 import { AppStateType, normalizedInitialState } from "@/redux/initialState";
 import { rootReducer } from "@/redux/rootReducer";
-import { createStore, Store } from "@core/createStore";
+import { createStore, Store } from "@core/store/createStore";
 import { Page } from "@core/router/Page";
 import { debounce, storage } from "@core/utils";
 

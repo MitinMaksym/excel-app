@@ -1,6 +1,6 @@
 import { AppStateType } from "@/redux/initialState";
-import { ActionsTypes } from "./../redux/actions";
-import { RootReducer } from "./../redux/rootReducer";
+import { ActionsTypes } from "../../redux/actions";
+import { RootReducer } from "../../redux/rootReducer";
 
 export const createStore = (
   rootReducer: RootReducer,
@@ -15,7 +15,7 @@ export const createStore = (
       return {
         unSubscribe() {
           listeners = listeners.filter((l) => l !== listener);
-        },
+        }
       };
     },
     dispatch(action: ActionsTypes) {
@@ -24,7 +24,7 @@ export const createStore = (
     },
     getState() {
       return state;
-    },
+    }
   };
 };
 

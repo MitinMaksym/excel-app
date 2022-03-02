@@ -1,4 +1,4 @@
-import { Store } from "@core/createStore";
+import { Store } from "@core/store/createStore";
 import { ActionsTypes } from "./../redux/actions";
 import { Dom } from "./dom";
 import { DomListener } from "./DomListener";
