@@ -5,7 +5,7 @@ import { Table } from "@/components/table/Table";
 import { Toolbar } from "@/components/toolbar/Toolbar";
 import { AppStateType, normalizedInitialState } from "@/redux/initialState";
 import { rootReducer } from "@/redux/rootReducer";
-import { createStore, Store } from "@core/store/createStore";
+import { createStore } from "@core/store/createStore";
 import { Page } from "@core/router/Page";
 import { debounce, storage } from "@core/utils";
 
@@ -17,7 +17,7 @@ export class ExcelPage extends Page {
   getRoot() {
     const params = this.params ? this.params : Date.now();
     const initialState = storage(storageName(params));
-    const store: Store = createStore(
+    const store = createStore(
       rootReducer,
       normalizedInitialState(initialState)
     );
@@ -29,7 +29,7 @@ export class ExcelPage extends Page {
     );
     this.excel = new Excel({
       components: [Header, Toolbar, Formula, Table],
-      store: store
+      store: store,
     });
     return this.excel.getRoot();
   }

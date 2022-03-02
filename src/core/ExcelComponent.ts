@@ -49,7 +49,7 @@ export class ExcelComponent extends DomListener {
   }
 
   protected $getState() {
-    return this.store.getState();
+    return this.store.getState() as AppStateType;
   }
 
   isWatching(key: string) {
