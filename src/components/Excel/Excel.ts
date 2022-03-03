@@ -1,5 +1,5 @@
 import { actions } from "@/redux/actions";
-import { Store } from "@core/createStore";
+import { Store } from "@core/store/createStore";
 import { $, Dom } from "@core/dom";
 import { Emitter } from "@core/Emitter";
 import { ExcelComponent } from "@core/ExcelComponent";
@@ -39,7 +39,7 @@ export class Excel {
     const excelRoot = $.create("div", Excel.className);
     const componentOptions: ComponentOptions = {
       emitter: this.emitter,
-      store: this.store,
+      store: this.store
     };
     this.renderedComponents = this.components.map((Component) => {
       const $el = $.create("div", Component.className);

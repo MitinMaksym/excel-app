@@ -1,5 +1,5 @@
 import { AppStateType } from "@/redux/initialState";
-import { Store } from "./createStore";
+import { Store } from "./store/createStore";
 import { ExcelComponent } from "./ExcelComponent";
 import { Nullable } from "./types";
 import { isEqual } from "./utils";
@@ -26,7 +26,7 @@ export class StoreSubscriber {
           components.forEach((component) => {
             if (component.isWatching(key)) {
               const changes = {
-                [key]: newState[key as keyof AppStateType],
+                [key]: newState[key as keyof AppStateType]
               };
               component.storeChanged(changes);
             }

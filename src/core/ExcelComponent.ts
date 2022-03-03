@@ -1,4 +1,4 @@
-import { Store } from "@core/createStore";
+import { Store } from "@core/store/createStore";
 import { ActionsTypes } from "./../redux/actions";
 import { Dom } from "./dom";
 import { DomListener } from "./DomListener";
@@ -49,7 +49,7 @@ export class ExcelComponent extends DomListener {
   }
 
   protected $getState() {
-    return this.store.getState();
+    return this.store.getState() as AppStateType;
   }
 
   isWatching(key: string) {
