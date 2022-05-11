@@ -24,7 +24,7 @@ export const rootReducer = (
         ...state,
         [field]: {
           ...state[field],
-          [action.data.id]: action.data,
+          [action.data.id]: action.data.value,
         },
       };
     case "CHANGE_TEXT":
