@@ -12,7 +12,7 @@ export class Toolbar extends ExcelStateComponent {
       ...options,
       listeners: ["click"],
       subscribe: ["currentStyles"],
-      name: "Toolbar"
+      name: "Toolbar",
     });
     this.prepare();
   }

@@ -5,8 +5,8 @@
     "semi": "off",
     "arrow-parens": "off",
     "comma-dangle": "off",
-    "linebreak-style": ["error", "windows"],
-    //"linebreak-style": ["error", "unix"],  // changes the file to LF
+    //"linebreak-style": ["error", "windows"],
+    //"linebreak-style": ["error", "unix"], // changes the file to LF
     "object-curly-spacing": "off",
     "require-jsdoc": "off",
     "indent": "off",
@@ -20,8 +20,8 @@
     "no-non-null-assertion": "off",
     "@typescript-eslint/explicit-module-boundary-types": "off",
     "@typescript-eslint/no-explicit-any": "off",
-   "@typescript-eslint/ban-ts-comment":"off",
-   "prefer-const":"off"
+    "@typescript-eslint/ban-ts-comment": "off",
+    "prefer-const": "off"
   },
   "extends": ["plugin:@typescript-eslint/recommended"]
 }

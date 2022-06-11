@@ -39,7 +39,7 @@ const toCell = (
       ...initialStyles,
       ...stylesState[`${row}:${col}`],
     });
-    return `<div class="row__cell" data-type="cell" data-value="${content}"  data-col = "${col}" style="width:${getWidth(
+    return `<div class="row__cell" data-type="cell"  data-col = "${col}" style="width:${getWidth(
       col,
       colState
     )}; ${styles};"  data-id = ${`${row}:${col}`}  contenteditable>  ${parse(

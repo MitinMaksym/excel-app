@@ -9,7 +9,7 @@ import { isCell, matrix, nextSelector, shouldResize } from "./table.functions";
 import { ComponentOptions } from "../Excel/Excel";
 import { Key } from "@core/types";
 import { initialStyles } from "@/constants";
-import { parse } from "@core/utils";
+//import { parse } from "@core/utils";
 
 export class Table extends ExcelComponent {
   static className = "table";
@@ -18,7 +18,7 @@ export class Table extends ExcelComponent {
     super($root, {
       name: "Table",
       listeners: ["mousedown", "keydown", "input"],
-      subscribe: ["colState", "currentStyles"],
+      subscribe: ["currentStyles", "dataState", "currentText"],
       ...options,
     });
     this.selection = new TableSelection();
@@ -32,7 +32,6 @@ export class Table extends ExcelComponent {
     $cell.css(this.$getState().currentStyles);
 
     this.$on<string>("FORMULA:TYPING", (data) => {
-      this.selection.activeCell?.attr("data-value", data).text(parse(data));
       this.updateTextInStore(data ?? "");
     });
     this.$on("FORMULA:DONE", () => {
@@ -95,7 +94,8 @@ export class Table extends ExcelComponent {
   }
 
   storeChanged(state: Partial<AppStateType>) {
-    this.selection.applyStyles(state.currentStyles || {});
+    this.selection.applyStyles(state.currentStyles);
+    this.selection.handleContentChange(state.dataState);
   }
 
   updateTextInStore(text: string) {
@@ -110,8 +110,7 @@ export class Table extends ExcelComponent {
   selectCell(cell: Dom) {
     this.$dispatch(actions.clearCurrentText());
     this.selection.selectCell(cell);
-    const cellContent = this.selection.activeCell?.attr("data-value") as string;
-
+    const cellContent = this.$getState().dataState[cell.id()] || "";
     this.updateTextInStore(cellContent);
 
     this.$dispatch(

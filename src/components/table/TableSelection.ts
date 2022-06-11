@@ -1,6 +1,7 @@
 import { DataType } from "./../../redux/initialState";
 import { Nullable } from "@core/types";
 import { Dom } from "@core/dom";
+import { parse } from "@core/utils";
 export class TableSelection {
   public group: Dom[];
   public activeCell: Nullable<Dom> = null;
@@ -34,7 +35,18 @@ export class TableSelection {
     this.group = [];
   }
 
-  applyStyles(currentStyles: DataType<string>) {
-    this.group.forEach((cell) => cell.css(currentStyles));
+  applyStyles(currentStyles: DataType<string> | undefined) {
+    if (currentStyles) {
+      this.group.forEach((cell) => cell.css(currentStyles));
+    }
+  }
+
+  handleContentChange(currentData: DataType<string> | undefined) {
+    if (currentData) {
+      this.group.forEach((cell) => {
+        const cellContent = currentData[cell.id()];
+        cell.text(parse(cellContent) || "");
+      });
+    }
   }
 }

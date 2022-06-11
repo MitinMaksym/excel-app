@@ -3,7 +3,7 @@ import { initialStyles } from "./Toolbar";
 export const toButton = ({
   icon,
   active,
-  value
+  value,
 }: {
   icon: string;
   active: boolean;
@@ -24,41 +24,41 @@ export const createToolbar = ({
   textAlign,
   fontWeight,
   fontStyle,
-  textDecoration
+  textDecoration,
 }: typeof initialStyles) => {
   const buttons = [
     {
       icon: "format_align_left",
       active: textAlign === "left",
-      value: { textAlign: "left" }
+      value: { textAlign: "left" },
     },
     {
       icon: "format_align_center",
       active: textAlign === "center",
-      value: { textAlign: "center" }
+      value: { textAlign: "center" },
     },
     {
       icon: "format_align_right",
       active: textAlign === "right",
-      value: { textAlign: "right" }
+      value: { textAlign: "right" },
     },
     {
       icon: "format_bold",
       active: fontWeight === "bold",
-      value: { fontWeight: fontWeight === "bold" ? "normal" : "bold" }
+      value: { fontWeight: fontWeight === "bold" ? "normal" : "bold" },
     },
     {
       icon: "format_italic",
       active: fontStyle === "italic",
-      value: { fontStyle: fontStyle === "italic" ? "normal" : "italic" }
+      value: { fontStyle: fontStyle === "italic" ? "normal" : "italic" },
     },
     {
       icon: "format_underlined",
       active: textDecoration === "underline",
       value: {
-        textDecoration: textDecoration === "underline" ? "none" : "underline"
-      }
-    }
+        textDecoration: textDecoration === "underline" ? "none" : "underline",
+      },
+    },
   ];
 
   return buttons.map(toButton).join("");
