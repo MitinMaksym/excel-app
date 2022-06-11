@@ -30,8 +30,10 @@ export const createTableItems = () => {
             <span>Дата открытия</span>
           </div>
           <ul class="db__list">
-            ${keys.map((key) => {
-              return toHTML(storage(key), key);
-            })}
+            ${keys
+              .map((key) => {
+                return toHTML(storage(key), key);
+              })
+              .join("")}
           </ul>`;
 };
