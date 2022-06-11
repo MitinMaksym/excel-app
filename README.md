@@ -1,5 +1,5 @@
 # excel-app
-### The Excel-like application is created in TypeScript with almost no third-party libraries. It has its own Redux implementation, router system, local state and other interesting things.
+ The Excel-like application is created in TypeScript with almost no third-party libraries. It has its own Redux implementation, router system, local state and other interesting things.
 ### Functionality:
 
 - Creating any amount of tables
